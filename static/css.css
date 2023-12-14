@@ -1,0 +1,52 @@
+html {
+    background-color: rgb(0, 0, 0);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.text {
+    color: white;
+    size: 150%;
+    display: flex;
+    justify-content: center;
+}
+img {
+    height: 200px;
+}
+@font-face {
+    font-family: "tnr";
+    src: url("static/TNR.ttf") format("truetype"); 
+    font-style: normal; 
+    font-weight: normal; 
+} 
+h1{
+    font-family: "tnr";
+    src: url("static/TNR.ttf") format("truetype"); 
+    font-style: normal; 
+    font-weight: normal; 
+}
+.mainfoto{
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+.blocken{
+    margin-top: 2%;
+    color: white;
+    size: 150%;
+    display: flex;
+    justify-content: center;
+}
+.blocksk{
+    margin-top: 2%;
+    color: white;
+    size: 150%;
+    display: flex;
+    justify-content: center;
+}
+.blocklan{
+    border: 2px solid #333;
+    padding: 10px;
+}
