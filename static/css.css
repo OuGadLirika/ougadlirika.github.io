@@ -34,19 +34,24 @@ h1{
 }
 .blocken{
     margin-top: 2%;
-    color: white;
     size: 150%;
     display: flex;
     justify-content: center;
 }
 .blocksk{
     margin-top: 2%;
-    color: white;
     size: 150%;
     display: flex;
     justify-content: center;
 }
 .blocklan{
-    border: 2px solid #333;
+    border: 2px solid rgb(43, 43, 43);
     padding: 10px;
+}
+.blocklan:hover{
+    background-color: rgb(30, 30, 30);
+}
+.linklan{
+    color: white;
+    text-decoration: none;
 }
