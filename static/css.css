@@ -68,6 +68,10 @@ p{
     margin-left: 1%;
     color: white;
 }
-.parag{
-    margin-bottom: 20%;
+.thx{
+    margin-top: 30%;
+    color: white;
+    size: 150%;
+    display: flex;
+    justify-content: center;
 }
