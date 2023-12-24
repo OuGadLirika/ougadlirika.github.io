@@ -1,1 +1,0 @@
-# ougadlirika.github.io
