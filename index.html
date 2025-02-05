@@ -1,65 +1,84 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta name="description" content="Cv">
-        <meta name="author" content="Roman Fenev">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Fenev's CV</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-        
-        <link href="css/style.css" rel="stylesheet">
-    </head>
-    
-    <body>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-        <main>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Dosis:wght@200&family=Handlee&display=swap"
+        rel="stylesheet">
 
-            <header class="site-header">
-                <div class="container">
-                    <div class="row justify-content-between">
+    <title></title>
+    <meta id="title-meta" name="title" content="Your Name-Links">
+    <meta id="description-meta" name="description"
+        content="Your Description">
 
-                        <div class="col-lg-12 col-12 d-flex align-items-center">
-                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
-                                <i class="bi-box"></i>
+    <meta name="keywords"
+        content="">
 
-                                <span>
-                                    Roman Fenev
-                                </span>
-                            </a>
-                        </div>
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
 
-                    </div>
-                </div>
-            </header>
+    <link href="assets/img/boy.png" rel="icon">
+    <link href="assets/img/boy.png" rel="apple-touch-icon">
 
+</head>
 
-            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 col-12 mx-auto">
-                          <h1 class="text-white">
-                                <a href="https://drive.google.com/file/d/1B2LmVSOn662afZ42mpvfx5hNvMnXyrrD/view?usp=drive_link">CV to PDF: link</a>
-                            </h1>
-                        </div>
-                    </div>
-                </div>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="assets/img/video.mp4" type="video/mp4">
+        </video>
+    </div>
 
-                <div class="video-wrap">
-                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
-                        <source src="videos/video.mp4" type="video/mp4">
+    <div class="black-bg"></div>
 
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </section>
-        </main>
-    </body>
+    <img src="assets/img/boy.png" alt="profile picture" class="profile-picture">
+
+    <div class="profile-name"><b id="name_component"></b></div>
+
+    <div class="profile-about"><b id="description_component">Your Description</b></div>
+
+    <footer>
+        <div>
+            <div style="text-align: center;">
+                <a href="https://www.instagram.com/ougadlirika/" target="_blank" class="hover , links-footer">
+                    <i class="fab fa-instagram"></i></a>
+
+                <a href="https://t.me/am12admin" target="_blank" class="hover , links-footer">
+                    <i class="fab fa-telegram fast-telegram"></i> </a>
+
+                <a href="mailto:fenevr@gmail.com" class="hover , links-footer">
+                    <i class="far fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="link-container"></div>
+
+    <script src="assets/js/components.js"></script>
+    <script src="assets/config.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
 </html>
