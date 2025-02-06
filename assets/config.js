@@ -18,5 +18,15 @@ let config = {
       "URL": "https://drive.google.com/file/d/1lYByaZKkxGa1JPfyZAXnR3Ft60PSE3ab/view?usp=sharing",
       "icon_classes": "fas fa-file-user"
     },
+  ],
+  "links_ad": [
+    {
+      "Title": "Find your job in Telegram",
+      "URL": "https://t.me/Digital_Nomad_Jobs",
+    },
+    {
+      "Title": "Placing a sticker of your company on my laptop - Free or 21€",
+      "URL": "sticker.html",
+    },
   ]
 }
