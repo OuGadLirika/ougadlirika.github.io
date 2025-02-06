@@ -26,7 +26,7 @@ let config = {
   ],
   "links_ad": [
     {
-      "Title": "Placing a sticker of your company on my laptop - Free or 21€",
+      "Title": "Place a sticker of your company on my laptop - Free or 21€",
       "URL": "sticker/",
     },
   ]
