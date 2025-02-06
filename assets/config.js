@@ -26,7 +26,7 @@ let config = {
     },
     {
       "Title": "Placing a sticker of your company on my laptop - Free or 21€",
-      "URL": "/sticker/",
+      "URL": "sticker/",
     },
   ]
 }
