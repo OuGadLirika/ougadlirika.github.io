@@ -44,7 +44,82 @@ img {
   position: relative;
   font-size: 20px;
   letter-spacing: 3px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  transition: color 1s;
 }
+.links:hover {
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.ad {
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  width: 490px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 40px;
+  font-family: "Dosis", sans-serif;
+  position: relative;
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background: transparent;
+  transition: color 0.5s, background 0.5s;
+}
+
+.ad:hover {
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  text-decoration: none;
+  animation: none;
+}
+
+/* Градиентная обводка вместо белой */
+.ad::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px; /* Толщина градиентной обводки */
+  border-radius: 40px; /* Совпадает с кнопкой */
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  background-size: 400%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glowing-border 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes glowing-border {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
 
 .links-in {
   padding: 5px;
@@ -117,11 +192,12 @@ video {
 @media (max-width: 548px) {
   .video-container {
     display: none;
-}
+  }
 
-.black-bg {
+  .black-bg {
     display: block;
-}
+  }
+
   .links {
     text-align: center;
     margin-top: 20px;
@@ -136,6 +212,21 @@ video {
     font-family: "Dosis", sans-serif;
     position: relative;
   }
+
+  .ad {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border-width: 1px;
+    width: 290px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 40px;
+    font-family: "Dosis", sans-serif;
+    position: relative;
+  }
+
   .profile-about {
     text-align: center;
     padding: 2px;
@@ -164,10 +255,12 @@ video {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(2);
     opacity: 2;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -175,6 +268,6 @@ video {
 }
 
 .fast-telegram {
-  animation: pulse-scale 1.5s infinite;
+  /* animation: pulse-scale 1.5s infinite; */
   text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 30px #00bfff;
 }

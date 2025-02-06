@@ -19,7 +19,6 @@ for (let i = 0; i < config.links.length; i++) {
     link_container.innerHTML += linkComponent(config.links[i].Title, config.links[i].icon_classes, config.links[i].URL)
 }
 
-console.log(config.links_ad);
 for (let i = 0; i < config.links_ad.length; i++) {
-    link_ad_container.innerHTML += linkComponent(config.links_ad[i].Title, config.links_ad[i].icon_classes, config.links_ad[i].URL);
+    link_ad_container.innerHTML += linkAdComponent(config.links_ad[i].Title, config.links_ad[i].icon_classes, config.links_ad[i].URL);
 }
