@@ -17,3 +17,18 @@ const linkAdComponent = (title, icon_classes, url) => {
     </div>
   `
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  VANTA.BIRDS({
+      el: "#desktop-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: window.innerHeight,
+      minWidth: window.innerWidth,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      backgroundColor: 0x000000,
+      color2: 0xa4ff
+  });
+});
