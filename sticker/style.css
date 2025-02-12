@@ -5,12 +5,44 @@ body {
     background-color: black;
 }
 
-.model{
-    width: 700px;
-    height: 700px;
+.model {
+    width: 500px;
+    height: 500px;
     background-color: rgb(25, 79, 97);
+    flex-shrink: 0; /* Запрещаем модели сжиматься */
+}
+
+.container {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: space-between; /* Размещение элементов по краям */
+    height: 100vh; /* Высота контейнера на весь экран */
+    padding: 0 20px; /* Отступы по бокам */
+    box-sizing: border-box; /* Учитываем padding в размерах */
+}
+
+.main-text {
+    color: aquamarine;
+    margin-left: 20px; /* Отступ между моделью и текстом */
+    max-width: calc(100% - 740px); /* Ограничение ширины текста */
 }
 
 @media (max-width: 548px) {
-    
+    .container {
+        flex-direction: column; /* Переключаемся на вертикальное расположение */
+        justify-content: flex-start; /* Текст под моделью */
+        padding: 20px; /* Добавляем отступы */
+    }
+
+    .model {
+        width: 100%; /* Модель занимает всю ширину */
+        height: auto; /* Высота автоматическая */
+        aspect-ratio: 1 / 1; /* Сохраняем пропорции квадрата */
+    }
+
+    .main-text {
+        margin-left: 0; /* Убираем отступ слева */
+        margin-top: 20px; /* Добавляем отступ сверху */
+        max-width: 100%; /* Текст занимает всю доступную ширину */
+    }
 }
