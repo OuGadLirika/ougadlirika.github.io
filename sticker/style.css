@@ -3,46 +3,87 @@ body {
     margin: 0;
     overflow: hidden;
     background-color: black;
+    overflow: auto; /* Разрешить прокрутку */
+    color: white; /* Общий цвет текста */
 }
 
 .model {
     width: 500px;
     height: 500px;
     background-color: rgb(25, 79, 97);
-    flex-shrink: 0; /* Запрещаем модели сжиматься */
+    flex-shrink: 0;
 }
 
 .container {
     display: flex;
-    align-items: center; /* Центрирование по вертикали */
-    justify-content: space-between; /* Размещение элементов по краям */
-    height: 100vh; /* Высота контейнера на весь экран */
-    padding: 0 20px; /* Отступы по бокам */
-    box-sizing: border-box; /* Учитываем padding в размерах */
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .main-text {
     color: aquamarine;
-    margin-left: 20px; /* Отступ между моделью и текстом */
-    max-width: calc(100% - 740px); /* Ограничение ширины текста */
+    margin-left: 20px;
+    max-width: calc(100% - 740px);
 }
 
 @media (max-width: 548px) {
     .container {
-        flex-direction: column; /* Переключаемся на вертикальное расположение */
-        justify-content: flex-start; /* Текст под моделью */
-        padding: 20px; /* Добавляем отступы */
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
     }
 
     .model {
-        width: 100%; /* Модель занимает всю ширину */
-        height: auto; /* Высота автоматическая */
-        aspect-ratio: 1 / 1; /* Сохраняем пропорции квадрата */
+        width: 100%; 
+        height: auto;
+        aspect-ratio: 1 / 1;
     }
 
     .main-text {
-        margin-left: 0; /* Убираем отступ слева */
-        margin-top: 20px; /* Добавляем отступ сверху */
-        max-width: 100%; /* Текст занимает всю доступную ширину */
+        margin-left: 0;
+        margin-top: 20px;
+        max-width: 100%;
     }
+}
+
+.page__wrapper {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: "Syne Mono";
+	flex-direction: column;
+}
+.heading {
+	color: #fff;
+	letter-spacing: 5px;
+	font-size: 2.6em;
+	margin-bottom: 30px;
+	padding: 0px 15px;
+}
+.accordion {
+	max-width: 500px;
+	width: calc(100% - 20px);
+}
+details {
+	background-color: #1E1E1E;
+	margin-bottom: 10px;
+	filter: drop-shadow(5px 5px 0px #0A0A0A);
+}
+details:hover {
+	filter: drop-shadow(5px 5px 4px #0A0A0A);
+}
+details > summary {
+	color: #f4de64;
+	padding: 5px 10px;
+	font-size: 1.3em;
+	cursor: pointer;
+}
+details > p {
+	padding: 5px 10px 10px 20px;
+	color: #ddd;
+	font-size: 1.1em;
 }

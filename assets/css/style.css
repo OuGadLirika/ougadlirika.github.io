@@ -30,6 +30,7 @@ img {
 }
 
 .links {
+  background-color: rgba(0, 0, 0, 0.3);
   text-align: center;
   margin-top: 20px;
   padding: 20px;
@@ -71,6 +72,7 @@ img {
   color: rgb(255, 255, 255);
   background: transparent;
   transition: color 0.5s, background 0.5s;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .ad:hover {
