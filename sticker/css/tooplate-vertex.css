@@ -319,99 +319,62 @@ span, footer {  line-height: 1.8; }
 
 /* Gallery */
 
-.tm-gallery-container {
-    max-width: 1400px;
+#logos {
+    max-width: 1400px; /* Ограничение максимальной ширины контейнера */
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; /* Центрирование контейнера */
+    display: flex; /* Использование Flexbox для выравнивания элементов */
+    flex-wrap: wrap; /* Перенос элементов на новую строку при необходимости */
+    align-items: center; /* Вертикальное центрирование элементов */
+    justify-content: center; /* Горизонтальное центрирование элементов */
+    padding: 0 15px; /* Отступы слева и справа для соответствия .tm-gallery-header */
 }
 
-.tm-gallery-header {
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-.tm-gallery {
-	position: relative;
-	list-style: none;
-	text-align: center;
+#logos .tm-gallery-item {
+    position: relative;
+    z-index: 50;
     overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    margin: 15px; /* Отступы между элементами */
+    min-width: 200px; /* Минимальная ширина элемента */
+    max-width: 250px; /* Максимальная ширина элемента */
+    max-height: 250px; /* Максимальная высота элемента */
+    width: 25%; /* Занимаемая ширина в сетке */
+    text-align: center; /* Выравнивание текста по центру */
+    cursor: pointer; /* Изменение курсора при наведении */
+    box-sizing: border-box; /* Учет отступов и границ в размерах */
 }
 
-.tm-gallery figure {
-	position: relative;
-	z-index: 50;
-	/* float: left; */
-	overflow: hidden;
-	margin: 15px;
-	min-width: 200px;
-	max-width: 250px;
-	max-height: 250px;
-	width: 25%;
-	text-align: center;
-	cursor: pointer;
+#logos .tm-gallery-item img {
+    position: relative;
+    display: block;
+    min-height: 100%;
+    max-width: 100%;
+    opacity: 0.8; /* Прозрачность изображения */
+    transition: opacity 0.3s ease; /* Плавный переход при изменении прозрачности */
 }
 
-.tm-gallery figure img {
-	position: relative;
-	display: block;
-	min-height: 100%;
-	max-width: 100%;
-	opacity: 0.8;
+#logos .tm-gallery-item img:hover {
+    opacity: 1; /* Полная видимость при наведении */
 }
 
-.tm-gallery figure figcaption {
-	padding: 1em;
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 1em;
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-}
-
-.tm-gallery figure figcaption::before,
-.tm-gallery figure figcaption::after {
-	pointer-events: none;
-}
-
-.tm-gallery figure figcaption,
-.tm-gallery figure figcaption > a {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
+#logos .tm-gallery-item figcaption {
+    padding: 1em;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1em;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
     box-sizing: border-box;
+    display: none; /* Скрываем описание по умолчанию */
 }
 
-/* Anchor will cover the whole item by default */
-/* For some effects it will show as a button */
-.tm-gallery figure figcaption > a {
-	z-index: 1000;
-	text-indent: 200%;
-	white-space: nowrap;
-	font-size: 0;
-	opacity: 0;
-}
-
-.tm-gallery figure h2 {
-	word-spacing: -0.15em;
-	font-weight: 300;
-}
-
-.tm-gallery figure h2 span { font-weight: 800; }
-
-.tm-gallery figure h2,
-.tm-gallery figure p {
-	margin: 0;
-}
-
-.tm-gallery figure p {
-	letter-spacing: 1px;
-	font-size: 68.5%;
+#logos .tm-gallery-item:hover figcaption {
+    display: block; /* Показываем описание при наведении */
 }
 
 /*-----------------*/
