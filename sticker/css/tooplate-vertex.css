@@ -294,7 +294,8 @@ span, footer {  line-height: 1.8; }
 
 .nav-link:hover,
 .nav-link.current {
-    color: #99CC99;
+    color: #c800ff;
+    text-shadow: 0 0 10px rgba(200, 0, 255, 0.7), 0 0 20px rgba(200, 0, 255, 0.6), 0 0 30px rgba(200, 0, 255, 0.5);
 }
 
 /* Introduction */
@@ -570,9 +571,6 @@ figure.effect-goliath:hover p {
 
     .tm-parallax { min-height: 360px; }
 
-    #contact .tm-parallax {
-        margin-bottom: 425px;
-    }
     
     .mapouter {
         top: 360px;

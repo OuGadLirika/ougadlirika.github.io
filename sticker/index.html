@@ -27,7 +27,7 @@
     <!-- Nav -->
     <nav class="tm-nav">
         <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
+            <img src="img/satan.svg" alt="Satan Icon" width="30" height="30">
         </button>
         <ul id="tm-main-nav">
             <li class="nav-item">
@@ -87,7 +87,8 @@
             </div>
 
             <!-- Intro right -->
-            <div class="tm-section-col tm-parallax" data-parallax="scroll" data-image-src="img/vertex-bg-01.jpeg">
+            <div class="tm-section-col tm-parallax" data-parallax="scroll">
+                <div id="bg-54" class="bg-container"></div>
                 <div class="model-container"> <model-viewer src="macbook/Sketchfab_2021_12_17_15_43_17.gltf"
                         ios-src="macbook/Sketchfab_2021_12_17_15_43_17.usdz" alt="3D модель" ar auto-rotate
                         camera-controls environment-image="neutral" exposure="1.0" shadow-intensity="1"
@@ -139,7 +140,7 @@
 
         <div id="gallery" class="tm-content tm-content-small-top black">
             <div class="tm-gallery-container">
-                <h2 class="tm-text-primary tm-text-right">Who's already on board?</h2>
+                <h2 class="tm-text-primary" id="main-text">Who's already on board?</h2>
                 <div id="logos" class="tm-mb-80">
                     <figure class="tm-gallery-item">
                         <a href="https://chainbase.com/" target="_blank" rel="noopener noreferrer">
@@ -174,7 +175,7 @@
                     Let's discuss any ideas you have! I'm open to collaboration and excited about the opportunity to
                     become your full-time brand ambassador.
                 </p>
-                <div class="tm-text-right tm-mb-130">
+                <div class="tm-text-right">
                     <a href="#contact" class="tm-btn tm-btn-next">Contact Us</a>
                 </div>
             </div>
@@ -193,7 +194,7 @@
                 </p>
                 <form id="contact-form"
                     action="https://docs.google.com/forms/d/e/1FAIpQLSdPsjtPFQHj3fejDfwePZIPIJERwqE9SHbXHaADskPpOKMqPw/formResponse"
-                    method="GET" target="_blank" class="tm-contact-form tm-mb-200">
+                    method="GET" target="_blank" class="tm-contact-form tm-mb-130">
                     <div class="form-group">
                         <input type="text" name="entry.1885234113" class="form-control rounded-0"
                             placeholder="     Which company are you from?" />
@@ -218,108 +219,8 @@
 
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="js/plugins.js"></script>
-    <script src="https://atuin.ru/demo/bg-anim/bg-54.js"></script>
-    <script>
-        $(window).on("load", function () {
-            $('body').addClass('loaded');
-        });
-
-        $(function () {
-
-            /*************** Navigation *****************/
-
-            const tmMainNav = $("#tm-main-nav");
-
-            tmMainNav.singlePageNav({
-                filter: ':not(.external)'
-            });
-
-            $('.navbar-toggler').click(function (e) {
-                e.stopPropagation();
-                tmMainNav.toggleClass('show');
-            });
-
-            $("html").click(function (e) {
-                $("#tm-main-nav").removeClass("show");
-            });
-
-            /****************** Smooth Scrolling *****************/
-
-            $(".tm-btn-next").on('click', function (event) {
-                if (this.hash !== "") {
-                    event.preventDefault();
-                    var hash = this.hash;
-
-                    $('html, body').animate({
-                        scrollTop: $(hash).offset().top
-                    }, 800, function () {
-                        // window.location.hash = hash;
-                    });
-                }
-            });
-
-            $('.tm-brand-icon').on('click', function (event) {
-                $('html, body').animate({
-                    scrollTop: $('#intro').offset().top
-                }, 800);
-            });
-
-            /****************** Gallery ******************/
-
-            const galleryItems = document.querySelector(".tm-gallery").children;
-            const itemsPerPage = 10;
-            const totalPages = Math.ceil(galleryItems.length / itemsPerPage);
-            const pageAttribute = 'data-page';
-
-            function setPagination(currentPage) {
-                for (let i = 1; i <= totalPages; i++) {
-                    var $pager = '';
-
-                    if (currentPage == i) {
-                        $pager = $('<a href="javascript:void(0);" class="active tm-paging-link" ' + pageAttribute + '="' + i + '"></a>');
-                    } else {
-                        $pager = $('<a href="javascript:void(0);" class="tm-paging-link" ' + pageAttribute + '="' + i + '"></a>');
-                    }
-
-                    $pager.html(i);
-
-                    $pager.click(function () {
-                        $('.tm-paging-link').removeClass("active");
-                        $(this).addClass('active');
-                        var page = $(this).eq(0).attr(pageAttribute);
-                        showItems(page);
-                    });
-
-                    $pager.appendTo($('.tm-paging'));
-                }
-            }
-
-            function showItems(currentPage) {
-                for (let i = 0; i < galleryItems.length; i++) {
-                    galleryItems[i].classList.remove("show");
-                    galleryItems[i].classList.add("hide");
-
-                    if (i >= (currentPage * itemsPerPage) - itemsPerPage && i < currentPage * itemsPerPage) {
-                        galleryItems[i].classList.remove("hide");
-                        galleryItems[i].classList.add("show");
-                    }
-                }
-            }
-
-            setPagination(1);
-            showItems(1);
-
-            /****************** Magnific Popup ***********/
-
-            $('.tm-gallery').magnificPopup({
-                delegate: 'a',
-                type: 'image',
-                gallery: {
-                    enabled: true
-                }
-            });
-        });
-    </script>
+    <script src="js/back.js"></script>
+    <script src="js/def.js"></script>
 </body>
 
 </html>
