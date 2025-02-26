@@ -12,6 +12,9 @@ model-viewer {
 .black {
     background-color: black;
 }
+.white {
+    background-color: #c800ff;
+}
 
 
 
@@ -23,7 +26,6 @@ model-viewer {
 
 #bg-54 {
     height: 540px;
-    margin: 20px 0;
 }
 .bg-container {
     position: absolute;
