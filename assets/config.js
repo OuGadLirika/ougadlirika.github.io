@@ -15,7 +15,7 @@ let config = {
     },
     {
       "Title": "Resume / CV",
-      "URL": "https://drive.google.com/file/d/1lYByaZKkxGa1JPfyZAXnR3Ft60PSE3ab/view?usp=sharing",
+      "URL": "https://drive.google.com/file/d/15p08FgzgLAVCFQ2MlSm0PX7m4_hWzrwC/view?usp=drivesdk",
       "icon_classes": "fas fa-file-user"
     },
     {
