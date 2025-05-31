@@ -1,6 +1,6 @@
 let config = {
-  "Title": "Roman Fenev",
-  "Name": "Roman Fenev",
+  "Title": "Ruth Fenev",
+  "Name": "Ruth Fenev",
   "Description": "",
   "links": [
     {
