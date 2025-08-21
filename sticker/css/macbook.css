@@ -1,0 +1,42 @@
+.model-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 100%;
+}
+model-viewer {
+    width: 100%;
+    height: 600px;
+}
+
+.black {
+    background-color: black;
+}
+.white {
+    background-color: #c800ff;
+}
+
+
+
+@media (max-width: 992px) {
+    #main-text {
+        margin-bottom: 0;
+    }
+}
+
+#bg-54 {
+    height: 540px;
+}
+.bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1; /* Make sure the background stays behind the model */
+    width: 100%;
+    height: 100%;
+}
+.tm-section-col {
+    position: relative;
+}
