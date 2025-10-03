@@ -20,7 +20,7 @@ let config = {
     },
     {
       "Title": "Twitter X",
-      "URL": "https://x.com/web3slovakia",
+      "URL": "https://x.com/DanubeClub",
       "icon_classes": "fab fa-twitter",
     }
   ],
