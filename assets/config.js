@@ -1,7 +1,7 @@
 let config = {
   "Title": "Ruth Fenev",
   "Name": "Ruth Fenev",
-  "Description": "Web3 & AI Developer, Bitget & Solana & Ethereum",
+  "Description": "Software Engineer | Web3 & AI Enthusiast | Founder of Danube Crypto Club | Bitget Ambassador | Solana & Ethereum Builder",
   "links": [
     {
       "Title": "Telegram",
