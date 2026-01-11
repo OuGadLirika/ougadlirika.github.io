@@ -10,7 +10,7 @@ let config = {
     },
     {
       "Title": "LinkedIn",
-      "URL": "https://www.linkedin.com/in/romanfenev/",
+      "URL": "https://www.linkedin.com/in/ruthfenev/",
       "icon_classes": "fab fa-linkedin"
     },
     {
