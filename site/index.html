@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Job of the Day Worldwide - a Solana-inspired landing page for an automated remote jobs Telegram bot."
+    />
+    <title>Job of the Day Worldwide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient--one"></div>
+    <div class="ambient ambient--two"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Job of the Day Worldwide home">
+        <span class="brand__mark">J</span>
+        <span class="brand__text">
+          <strong>Job of the Day</strong>
+          <small>Worldwide</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#screens">Screens</a>
+        <a href="#features">Features</a>
+        <a href="#setup">Setup</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="chip chip--live" href="./" target="_self" rel="noopener">Live page</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section reveal">
+        <div class="hero__copy">
+          <span class="eyebrow">Telegram automation • remote jobs • daily publishing</span>
+          <h1>Modern job automation with a clean, Solana-inspired presentation.</h1>
+          <p class="lede">
+            Job of the Day Worldwide collects remote roles from RSS feeds, prepares polished Telegram posts,
+            and keeps an admin-friendly queue for scheduled publishing.
+          </p>
+
+          <div class="hero__actions">
+            <a class="button button--primary" href="#screens">Explore screenshots</a>
+            <a class="button button--secondary" href="#setup">View setup guide</a>
+          </div>
+
+          <dl class="stats" aria-label="Project highlights">
+            <div>
+              <dt>5</dt>
+              <dd>RSS feeds monitored</dd>
+            </div>
+            <div>
+              <dt>1</dt>
+              <dd>clean landing page</dd>
+            </div>
+            <div>
+              <dt>24/7</dt>
+              <dd>automated queue flow</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero__visual">
+          <div class="poster poster--backdrop">
+            <img src="../banner.png" alt="Job of the Day Worldwide banner" />
+          </div>
+          <div class="floating-card floating-card--top">
+            <span class="dot dot--green"></span>
+            <span>Remote feed live</span>
+          </div>
+          <div class="floating-card floating-card--bottom">
+            <span class="dot dot--violet"></span>
+            <span>Queued posts ready for review</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="screens" class="section reveal">
+        <div class="section__heading">
+          <span class="eyebrow">Product screenshots</span>
+          <h2>Multiple device frames for a trustworthy showcase.</h2>
+          <p>
+            These mock screens present the app across mobile, tablet, laptop, and watch-style frames so the project
+            feels complete even before you capture real screenshots.
+          </p>
+        </div>
+
+        <div class="device-grid">
+          <article class="device device--phone">
+            <div class="device__frame">
+              <div class="device__notch"></div>
+              <div class="device__screen screen screen--mobile">
+                <div class="screen__header">
+                  <span class="badge">Live feed</span>
+                  <span class="screen__time">09:41</span>
+                </div>
+                <div class="screen__title">Remote Software Roles</div>
+                <div class="screen__card screen__card--highlight">
+                  <strong>Senior Python Engineer</strong>
+                  <p>Remote • Global team • Immediate review</p>
+                </div>
+                <div class="screen__card">
+                  <strong>QA Automation Lead</strong>
+                  <p>Captured from RSS and queued for publishing</p>
+                </div>
+                <div class="mini-bars">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+            <p class="device__label">Mobile dashboard</p>
+          </article>
+
+          <article class="device device--tablet">
+            <div class="device__frame">
+              <div class="device__screen screen screen--tablet">
+                <div class="screen__header">
+                  <span class="badge badge--soft">Queue board</span>
+                  <span class="badge badge--success">Delayed</span>
+                </div>
+                <div class="queue-grid">
+                  <div class="queue-card queue-card--accent">
+                    <span>Job ID</span>
+                    <strong>2030186</strong>
+                    <small>Published on schedule</small>
+                  </div>
+                  <div class="queue-card">
+                    <span>Next post</span>
+                    <strong>1h 30m</strong>
+                    <small>Cooldown before send</small>
+                  </div>
+                  <div class="queue-card">
+                    <span>Status</span>
+                    <strong>Ready</strong>
+                    <small>Admin can push or delete</small>
+                  </div>
+                </div>
+                <div class="timeline">
+                  <div class="timeline__item"><span></span><p>RSS scan</p></div>
+                  <div class="timeline__item"><span></span><p>Link extraction</p></div>
+                  <div class="timeline__item"><span></span><p>Caption formatting</p></div>
+                  <div class="timeline__item"><span></span><p>Telegram publish</p></div>
+                </div>
+              </div>
+            </div>
+            <p class="device__label">Tablet queue view</p>
+          </article>
+
+          <article class="device device--laptop">
+            <div class="device__frame">
+              <div class="device__screen screen screen--laptop">
+                <div class="laptop__topbar">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="laptop__content">
+                  <div>
+                    <span class="badge">Admin console</span>
+                    <h3>Queue, audit, and publish in one place.</h3>
+                    <p>
+                      The bot fetches jobs, shortens text for Telegram limits, and keeps status files in sync for reliable automation.
+                    </p>
+                  </div>
+                  <div class="audit-panel">
+                    <div>
+                      <span>Current queue</span>
+                      <strong>12 posts</strong>
+                    </div>
+                    <div>
+                      <span>Over limit</span>
+                      <strong>0</strong>
+                    </div>
+                    <div>
+                      <span>Last send</span>
+                      <strong>12:40 UTC</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="device__label">Notebook admin overview</p>
+          </article>
+
+          <article class="device device--watch">
+            <div class="device__frame device__frame--watch">
+              <div class="device__screen screen screen--watch">
+                <span class="badge badge--tiny">Now</span>
+                <strong>1 new job</strong>
+                <p>Queued for review</p>
+              </div>
+            </div>
+            <p class="device__label">Wearable status glance</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="features" class="section section--split reveal">
+        <div class="section__heading">
+          <span class="eyebrow">Functional highlights</span>
+          <h2>Clear functionality with simple visuals and emoji markers.</h2>
+        </div>
+
+        <div class="feature-list">
+          <article class="feature-card">
+            <h3>⚡ RSS ingestion</h3>
+            <p>Monitors remote job feeds and stores new opportunities automatically.</p>
+          </article>
+          <article class="feature-card">
+            <h3>🧠 Smart post formatting</h3>
+            <p>Cleans HTML, trims long descriptions, and prepares Telegram-ready captions.</p>
+          </article>
+          <article class="feature-card">
+            <h3>🕒 Delayed publishing</h3>
+            <p>Queues posts and publishes them with a controlled interval for consistent output.</p>
+          </article>
+          <article class="feature-card">
+            <h3>🛠 Admin actions</h3>
+            <p>Push, delete, and inspect queued items with simple bot commands.</p>
+          </article>
+          <article class="feature-card">
+            <h3>📎 Direct apply links</h3>
+            <p>Extracts a real application URL so every post has a clear next step.</p>
+          </article>
+          <article class="feature-card">
+            <h3>🧹 Length audit</h3>
+            <p>Keeps captions within Telegram limits and helps avoid broken posts.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="setup" class="section reveal">
+        <div class="section__heading">
+          <span class="eyebrow">Setup guide</span>
+          <h2>Simple installation, but with clear steps because the bot needs configuration.</h2>
+          <p>
+            This project is not a one-click app. To run it safely, the Telegram token, admin ID, and target channel need to be configured first.
+          </p>
+        </div>
+
+        <div class="setup-grid">
+          <article class="setup-card">
+            <span class="step">1</span>
+            <h3>Install dependencies</h3>
+            <pre>pip install -r requirements.txt</pre>
+          </article>
+          <article class="setup-card">
+            <span class="step">2</span>
+            <h3>Configure bot settings</h3>
+            <p>Edit the Telegram token, admin ID, and channel ID in the Python files before launching.</p>
+          </article>
+          <article class="setup-card">
+            <span class="step">3</span>
+            <h3>Fetch new jobs</h3>
+            <pre>python3 fetch_jobs.py</pre>
+          </article>
+          <article class="setup-card">
+            <span class="step">4</span>
+            <h3>Start the bot</h3>
+            <pre>python3 bot.py</pre>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section reveal">
+        <div class="contact-shell">
+          <div>
+            <span class="eyebrow">Contact</span>
+            <h2>Write to the developer or open the public demo page.</h2>
+            <p>
+              If you want changes, screenshots from the real app, or a custom color direction, send a message through Telegram.
+            </p>
+            <div class="contact-links">
+              <a class="button button--primary" href="https://t.me/seevov" target="_blank" rel="noopener">Message on Telegram</a>
+              <a class="button button--secondary" href="./" target="_self">Open demo page</a>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contact-form">
+            <label>
+              Your name
+              <input name="name" type="text" placeholder="Alex" />
+            </label>
+            <label>
+              Your message
+              <textarea name="message" rows="4" placeholder="I would like to customize the landing page and add real screenshots."></textarea>
+            </label>
+            <button class="button button--primary" type="submit">Draft email</button>
+            <p class="form-note">The form opens your email client with a prefilled message. No backend required.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Job of the Day Worldwide • Built for GitHub Pages • English presentation page • <span data-year></span></p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
