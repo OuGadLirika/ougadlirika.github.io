@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 520">
+  <defs>
+    <style>
+      .bg { fill: #fafaf9; }
+      .panel { fill: #ffffff; stroke: #d6d3d1; stroke-width: 2; }
+      .grid { stroke: #e7e5e4; stroke-width: 1; }
+      .axis { stroke: #a8a29e; stroke-width: 1.5; }
+      .ideal { stroke: #111827; stroke-width: 4; stroke-linecap: round; }
+      .pixel { fill: #2563eb; stroke: #1e40af; stroke-width: 2; }
+      .candidate { fill: #ffffff; stroke: #dc2626; stroke-width: 3; stroke-dasharray: 8 5; }
+      .chosen { fill: #16a34a; stroke: #166534; stroke-width: 2; }
+      .guide { stroke: #78716c; stroke-width: 2; stroke-dasharray: 6 5; }
+      .label { fill: #1c1917; font: 600 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #57534e; font: 500 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { fill: #44403c; font: 600 17px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="980" height="520"/>
+
+  <rect class="panel" x="30" y="40" width="440" height="420" rx="18"/>
+  <rect class="panel" x="510" y="40" width="440" height="420" rx="18"/>
+
+  <text class="label" x="250" y="90" text-anchor="middle">DDA</text>
+  <text class="small" x="250" y="118" text-anchor="middle">počíta reálne hodnoty a zaokrúhľuje</text>
+
+  <text class="label" x="730" y="90" text-anchor="middle">Bresenham</text>
+  <text class="small" x="730" y="118" text-anchor="middle">rozhoduje medzi kandidátskymi pixelmi</text>
+
+  <g transform="translate(85 160)">
+    <g>
+      <path class="grid" d="M0 0H330M0 40H330M0 80H330M0 120H330M0 160H330M0 200H330M0 240H330"/>
+      <path class="grid" d="M0 0V240M40 0V240M80 0V240M120 0V240M160 0V240M200 0V240M240 0V240M280 0V240M320 0V240"/>
+      <path class="axis" d="M0 240H330M0 0V240"/>
+      <line class="ideal" x1="20" y1="220" x2="300" y2="55"/>
+
+      <rect class="pixel" x="0" y="200" width="40" height="40"/>
+      <rect class="pixel" x="40" y="160" width="40" height="40"/>
+      <rect class="pixel" x="80" y="160" width="40" height="40"/>
+      <rect class="pixel" x="120" y="120" width="40" height="40"/>
+      <rect class="pixel" x="160" y="120" width="40" height="40"/>
+      <rect class="pixel" x="200" y="80" width="40" height="40"/>
+      <rect class="pixel" x="240" y="80" width="40" height="40"/>
+      <rect class="pixel" x="280" y="40" width="40" height="40"/>
+
+      <line class="guide" x1="160" y1="0" x2="160" y2="240"/>
+      <text class="mono" x="166" y="232">x + 1</text>
+    </g>
+  </g>
+
+  <g transform="translate(565 160)">
+    <g>
+      <path class="grid" d="M0 0H330M0 40H330M0 80H330M0 120H330M0 160H330M0 200H330M0 240H330"/>
+      <path class="grid" d="M0 0V240M40 0V240M80 0V240M120 0V240M160 0V240M200 0V240M240 0V240M280 0V240M320 0V240"/>
+      <path class="axis" d="M0 240H330M0 0V240"/>
+      <line class="ideal" x1="20" y1="220" x2="300" y2="55"/>
+
+      <rect class="chosen" x="0" y="200" width="40" height="40"/>
+      <rect class="chosen" x="40" y="160" width="40" height="40"/>
+      <rect class="chosen" x="80" y="160" width="40" height="40"/>
+      <rect class="chosen" x="120" y="120" width="40" height="40"/>
+      <rect class="chosen" x="160" y="120" width="40" height="40"/>
+
+      <rect class="candidate" x="200" y="80" width="40" height="40"/>
+      <rect class="candidate" x="200" y="120" width="40" height="40"/>
+      <text class="mono" x="247" y="105">kandidáti</text>
+
+      <rect class="chosen" x="200" y="80" width="40" height="40"/>
+      <rect class="chosen" x="240" y="80" width="40" height="40"/>
+      <rect class="chosen" x="280" y="40" width="40" height="40"/>
+    </g>
+  </g>
+
+  <g>
+    <rect x="255" y="405" width="24" height="24" class="pixel"/>
+    <text class="small" x="290" y="424">vybraný pixel po zaokrúhlení</text>
+    <rect x="600" y="405" width="24" height="24" class="chosen"/>
+    <text class="small" x="635" y="424">vybraný pixel celočíselným rozhodnutím</text>
+    <rect x="600" y="438" width="24" height="24" class="candidate"/>
+    <text class="small" x="635" y="457">možný kandidát v ďalšom kroku</text>
+  </g>
+</svg>

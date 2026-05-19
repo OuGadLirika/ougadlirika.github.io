@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="420" viewBox="0 0 850 420">
+  <defs>
+    <style>
+      .actor-line { stroke: #1f2937; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .actor-head { fill: #bae6fd; stroke: #1f2937; stroke-width: 2.5; }
+      .actor-text { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; font-weight: 500; }
+      .box { fill: #dcfce7; stroke: #22c55e; stroke-width: 2; rx: 12; }
+      .box-text { font-family: system-ui, -apple-system, sans-serif; font-size: 18px; font-weight: 700; fill: #14532d; }
+      .box-text-small { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 600; fill: #14532d; }
+    </style>
+    <g id="actor">
+      <circle cx="0" cy="0" r="14" class="actor-head"/>
+      <path d="M 0 14 L 0 45" class="actor-line"/>
+      <path d="M -18 22 L 18 22" class="actor-line"/>
+      <path d="M 0 45 L -18 75" class="actor-line"/>
+      <path d="M 0 45 L 18 75" class="actor-line"/>
+    </g>
+  </defs>
+
+  <rect width="850" height="420" fill="#ffffff"/>
+
+  <!-- Row 1: Používateľ -->
+  <rect x="40" y="40" width="300" height="80" class="box"/>
+  <text x="190" y="86" text-anchor="middle" class="box-text">Používateľ</text>
+  
+  <g transform="translate(485 35)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Zákazník</text>
+  </g>
+  <g transform="translate(635 35)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Admin</text>
+  </g>
+
+  <!-- Row 2: Systémy -->
+  <rect x="40" y="160" width="300" height="80" class="box"/>
+  <text x="190" y="195" text-anchor="middle" class="box-text-small">Systémy alebo iné</text>
+  <text x="190" y="218" text-anchor="middle" class="box-text-small">softvérové aplikácie</text>
+
+  <g transform="translate(485 155)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Systém</text>
+  </g>
+
+  <!-- Row 3: Čas alebo udalosť -->
+  <rect x="40" y="280" width="300" height="80" class="box"/>
+  <text x="190" y="326" text-anchor="middle" class="box-text">Čas alebo udalosť</text>
+
+  <g transform="translate(410 275)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Prekročenie</text>
+    <text x="0" y="118" class="actor-text">limitu pamäte</text>
+  </g>
+  <g transform="translate(560 275)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Denný časovač</text>
+  </g>
+  <g transform="translate(710 275)">
+    <use href="#actor"/>
+    <text x="0" y="100" class="actor-text">Koniec mesiaca</text>
+  </g>
+</svg>

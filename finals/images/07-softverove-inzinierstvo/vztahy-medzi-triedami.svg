@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560">
+  <defs>
+    <style>
+      .line { stroke: #111827; stroke-width: 6; fill: none; }
+      .dashed { stroke-dasharray: 14 14; }
+      .shape-white { fill: #ffffff; stroke: #111827; stroke-width: 6; stroke-linejoin: round; }
+      .shape-black { fill: #111827; stroke: #111827; stroke-width: 6; stroke-linejoin: round; }
+      .text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 24px; fill: #1f2937; }
+    </style>
+  </defs>
+
+  <rect width="1100" height="560" fill="#ffffff"/>
+
+  <!-- Asociácia -->
+  <path d="M 50 80 L 350 80" class="line"/>
+  <text x="400" y="75" class="text"><tspan font-weight="700" fill="#111827">Asociácia:</tspan> Základný vzťah medzi triedami,</text>
+  <text x="400" y="105" class="text">reprezentovaný čiarou (napr. Bankomat je spojený s Účet).</text>
+
+  <!-- Agregácia -->
+  <path d="M 50 180 L 320 180" class="line"/>
+  <polygon points="310,180 335,162 360,180 335,198" class="shape-white"/>
+  <text x="400" y="175" class="text"><tspan font-weight="700" fill="#111827">Agregácia:</tspan> Slabá "má-a" väzba, kde jedna trieda</text>
+  <text x="400" y="205" class="text">obsahuje inú (napr. Bankomat obsahuje Displej).</text>
+
+  <!-- Kompozícia -->
+  <path d="M 50 280 L 320 280" class="line"/>
+  <polygon points="310,280 335,262 360,280 335,298" class="shape-black"/>
+  <text x="400" y="260" class="text"><tspan font-weight="700" fill="#111827">Kompozícia:</tspan> Silná "má-a" väzba, kde obsahujúca trieda</text>
+  <text x="400" y="290" class="text">vlastní a spravuje životný cyklus obsahovanej triedy</text>
+  <text x="400" y="320" class="text">(napr. Bankomat obsahuje Mechanizmus na karty).</text>
+
+  <!-- Dedičnosť -->
+  <path d="M 50 380 L 320 380" class="line"/>
+  <polygon points="310,355 360,380 310,405" class="shape-white"/>
+  <text x="400" y="375" class="text"><tspan font-weight="700" fill="#111827">Dedičnosť (Generalizácia):</tspan> Vzťah medzi nadradenou</text>
+  <text x="400" y="405" class="text">a podtriedou (napr. Účet môže mať podtriedy Bežný účet a Sporiaci účet).</text>
+
+  <!-- Realizácia -->
+  <path d="M 50 480 L 320 480" class="line dashed"/>
+  <polygon points="310,455 360,480 310,505" class="shape-white"/>
+  <text x="400" y="475" class="text"><tspan font-weight="700" fill="#111827">Realizácia:</tspan> Označuje implementáciu rozhrania triedou</text>
+  <text x="400" y="505" class="text">(napr. trieda implementuje rozhranie Platobná brána).</text>
+
+</svg>

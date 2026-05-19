@@ -1,0 +1,1707 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+<link rel="icon" href="favicon/favicon.ico" sizes="any">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Štátna skúška</title>
+<meta name="description" content="Spracované otázky na štátnu skúšku z aplikovanej informatiky.">
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('statna-skuska:theme');
+      var theme = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (_) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="answers/styles/palette-style.css">
+<link rel="stylesheet" href="answers/styles/study-style.css">
+<link rel="stylesheet" href="answers/styles/turing-style.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Preskočiť na obsah</a>
+
+<button class="home-toggle" id="home-toggle" title="Domov">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10.5 12 3l9 7.5"/>
+    <path d="M5.5 9.5V21h13V9.5"/>
+    <path d="M9.5 21v-6h5v6"/>
+  </svg>
+</button>
+
+<button class="theme-toggle" id="theme-toggle">
+  <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+  </svg>
+  <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <line x1="12" y1="2.5" x2="12" y2="4.5"/>
+    <line x1="12" y1="19.5" x2="12" y2="21.5"/>
+    <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/>
+    <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+    <line x1="2.5" y1="12" x2="4.5" y2="12"/>
+    <line x1="19.5" y1="12" x2="21.5" y2="12"/>
+    <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/>
+    <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+  </svg>
+</button>
+
+<button class="scroll-top-toggle" id="scroll-top-toggle" title="Hore">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5"/>
+    <path d="M5.5 11.5 12 5l6.5 6.5"/>
+  </svg>
+</button>
+
+<div class="page">
+
+  <main id="main">
+    <div class="prose" id="prose">
+      <div class="state">Načítavam obsah…</div>
+    </div>
+    <nav class="site-foot" id="site-foot" hidden></nav>
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<script src="answers/scripts/sort-animations.js"></script>
+<script src="answers/scripts/adt-animations.js"></script>
+<script src="answers/scripts/bezier-animations.js"></script>
+<script src="answers/scripts/transform-animations.js"></script>
+<script src="answers/scripts/turing-animations.js"></script>
+<script src="answers/scripts/raster-animations.js"></script>
+<script src="answers/scripts/dfa-animations.js"></script>
+<script src="answers/scripts/pda-animations.js"></script>
+<script>
+(() => {
+  const proseEl = document.getElementById('prose');
+  const siteFootEl = document.getElementById('site-foot');
+
+  // Manifest of topics. Each has: slug (hash-safe), num (display), tag
+  // (compact UI label), title, file (path to markdown), and q-num range
+  // for legacy-hash lookup.
+  const EXAM_TOPICS = [
+    { slug: 'operacne-systemy',         num: '01', tag: 'OS',   title: 'Operačné systémy',                              file: 'answers/01-operacne-systemy.md',                     qLo: 1,  qHi: 4  },
+    { slug: 'architektury',             num: '02', tag: 'ARCH', title: 'Počítačové architektúry',                       file: 'answers/02-pocitacove-architektury.md',              qLo: 5,  qHi: 8  },
+    { slug: 'databazy',                 num: '03', tag: 'DB',   title: 'Databázové systémy',                            file: 'answers/03-databazove-systemy.md',                    qLo: 9,  qHi: 12 },
+    { slug: 'internet',                 num: '04', tag: 'WEB',  title: 'Internetové technológie',                       file: 'answers/04-internetove-technologie.md',               qLo: 13, qHi: 16 },
+    { slug: 'grafika',                  num: '05', tag: 'GFX',  title: 'Počítačová grafika, multimediálne systémy',     file: 'answers/05-grafika-a-multimedia.md',                  qLo: 17, qHi: 21 },
+    { slug: 'algoritmy',                num: '06', tag: 'DSA',  title: 'Algoritmy, dátové štruktúry, programovanie',    file: 'answers/06-algoritmy-a-programovanie.md',             qLo: 22, qHi: 25 },
+    { slug: 'softverove-inzinierstvo',  num: '07', tag: 'SWE',  title: 'Softvérové inžinierstvo',                       file: 'answers/07-softverove-inzinierstvo.md',               qLo: 26, qHi: 29 },
+    { slug: 'matematika',               num: '08', tag: 'MAT',  title: 'Matematické a teoretické základy informatiky', file: 'answers/08-teoreticke-zaklady-informatiky.md',       qLo: 30, qHi: 34 },
+    { slug: 'siete',                    num: '09', tag: 'NET',  title: 'Počítačové siete a informačná bezpečnosť',     file: 'answers/09-siete-a-bezpecnost.md',                    qLo: 35, qHi: 39 },
+  ];
+  const COMMISSION_TOPIC_MARKERS = {
+    'operacne-systemy': 'Hosťovecký',
+    'grafika': 'Beňo · Hosťovecký',
+    'algoritmy': 'Pospíchal',
+  };
+  const EXAM_TOPIC_BY_SLUG = Object.fromEntries(EXAM_TOPICS.map(o => [o.slug, o]));
+  Object.assign(EXAM_TOPIC_BY_SLUG, {
+    os: EXAM_TOPIC_BY_SLUG['operacne-systemy'],
+    swi: EXAM_TOPIC_BY_SLUG['softverove-inzinierstvo'],
+  });
+  function examTopicForQnum(n) { return EXAM_TOPICS.find(o => n >= o.qLo && n <= o.qHi); }
+  function commissionMarkerForTopic(topic) {
+    return topic && COMMISSION_TOPIC_MARKERS[topic.slug] ? COMMISSION_TOPIC_MARKERS[topic.slug] : '';
+  }
+
+  // One short label per question in each topic — mirrors the dashboard
+  // blurbs (kept in sync manually) and powers the per-question nav bar
+  // inside each question card. Index N maps to the Nth question in the
+  // topic (qLo + N).
+  const EXAM_TOPIC_QUESTION_LABELS = {
+    'operacne-systemy':         ['typy OS', 'pamäť', 'súborové systémy', 'procesy a vlákna'],
+    'architektury':             ['informácia a sústavy', 'generácie a paralelizmus', 'mikroprocesor', 'inštrukcie a výkon'],
+    'databazy':                 ['princípy DBS', 'dátové modely a ERD', 'SQL/PLSQL', 'databázová architektúra'],
+    'internet':                 ['HTML základy', 'multimédiá v HTML', 'CSS', 'PHP'],
+    'grafika':                  ['vektor a raster', '2D transformácie', 'farby', 'zariadenia', 'VR/AR a MOCAP'],
+    'algoritmy':                ['algoritmy a paradigmy', 'ADT', 'OOP', 'triedenia'],
+    'softverove-inzinierstvo':  ['informačné systémy', 'kvalita softvéru', 'procesy vývoja', 'UML'],
+    'matematika':               ['logika', 'regulárne jazyky', 'bezkontextové jazyky', 'Turingov stroj', 'zložitosť'],
+    'siete':                    ['sieťové modely', 'komponenty sietí', 'IPv4 a smerovanie', 'kryptografia', 'bezpečnosť'],
+  };
+  function questionLabelFor(topic, qnum) {
+    if (!topic || !qnum) return '';
+    const labels = EXAM_TOPIC_QUESTION_LABELS[topic.slug];
+    if (!labels) return '';
+    return labels[qnum - topic.qLo] || '';
+  }
+  const BASE_TITLE = document.title;
+  const descriptionMeta = document.querySelector('meta[name="description"]');
+  const BASE_DESCRIPTION = descriptionMeta ? descriptionMeta.getAttribute('content') : '';
+  const MERMAID_CDN_URL = 'https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.esm.min.mjs';
+  let mermaidPromise = null;
+  let activeTopic = null;
+  let activeRoute = null;
+  let loadSeq = 0;
+  let prefetchStarted = false;
+  const markdownCache = new Map();
+
+  function normalizeQuestionNum(value) {
+    if (value == null || value === '') return null;
+    const num = Number(value);
+    return Number.isInteger(num) && num > 0 ? num : null;
+  }
+
+  function routeHrefFor(topic, opts = {}) {
+    if (typeof opts === 'string') opts = { hash: opts };
+    const {
+      qnum = null,
+      hash = '',
+      mode = null,
+    } = opts;
+    if (!topic && mode === 'home') return location.pathname;
+    const params = new URLSearchParams();
+    if (topic) params.set('topic', topic.slug);
+    if (qnum) params.set('q', String(qnum));
+    if (mode === 'practice') params.set('mode', 'practice');
+    const cleanHash = hash ? (hash.startsWith('#') ? hash : '#' + hash) : '';
+    const query = params.toString();
+    return `${location.pathname}?${query}${cleanHash}`;
+  }
+
+  function totalQuestions() {
+    return EXAM_TOPICS[EXAM_TOPICS.length - 1].qHi;
+  }
+
+  function pickRandomQnum(excludeQnum) {
+    const total = totalQuestions();
+    if (total <= 1) return 1;
+    let n;
+    do {
+      n = Math.floor(Math.random() * total) + 1;
+    } while (n === excludeQnum);
+    return n;
+  }
+
+  function parseQuestionHash(hash) {
+    if (!hash) return null;
+    const qHash = hash.match(/^#q-(\d+)(?:$|-)/);
+    if (qHash) return { num: Number(qHash[1]), hash };
+    const rawNum = hash.match(/^#(\d+)$/);
+    if (rawNum) return { num: Number(rawNum[1]), hash: '#q-' + rawNum[1] };
+    return null;
+  }
+
+  function resolveRoute() {
+    const params = new URLSearchParams(location.search);
+    const hasDirectRouteTarget =
+      params.has('topic') ||
+      params.has('q') ||
+      params.get('mode') === 'practice' ||
+      !!location.hash;
+    if (!hasDirectRouteTarget) {
+      return {
+        topic: null,
+        hash: '',
+        qnum: null,
+        viewMode: 'focus',
+        mode: 'home',
+        canonicalUrl: location.pathname,
+        needsCanonical: (location.pathname + location.search + location.hash) !== location.pathname,
+      };
+    }
+
+    const mode = params.get('mode') === 'practice' ? 'practice' : null;
+    const viewMode = 'focus';
+    const queryQnum = normalizeQuestionNum(params.get('q'));
+    let topic = EXAM_TOPIC_BY_SLUG[params.get('topic')] || null;
+    let hash = location.hash || '';
+    let qnum = queryQnum;
+
+    const qRef = parseQuestionHash(hash);
+    if (qRef) {
+      qnum = qRef.num;
+      hash = qRef.hash;
+    } else if (!topic && hash) {
+      const hashSlug = decodeURIComponent(hash.slice(1));
+      if (EXAM_TOPIC_BY_SLUG[hashSlug]) {
+        topic = EXAM_TOPIC_BY_SLUG[hashSlug];
+        hash = '';
+      }
+    }
+
+    if (qnum) {
+      const byQuestion = examTopicForQnum(qnum);
+      if (byQuestion) topic = byQuestion;
+    }
+
+    if (mode === 'practice') {
+      if (!qnum) qnum = pickRandomQnum();
+      topic = examTopicForQnum(qnum) || EXAM_TOPICS[0];
+      hash = '';
+    }
+
+    if (!topic) topic = EXAM_TOPICS[0];
+
+    if (!qnum || qnum < topic.qLo || qnum > topic.qHi) qnum = null;
+    if (!qnum) qnum = topic.qLo;
+
+    if (qnum && hash === '#q-' + qnum) {
+      hash = '';
+    }
+
+    const canonicalUrl = routeHrefFor(topic, { qnum, viewMode, hash, mode });
+    const currentUrl = location.pathname + location.search + location.hash;
+    return { topic, hash, qnum, viewMode, mode, canonicalUrl, needsCanonical: currentUrl !== canonicalUrl };
+  }
+
+  function setDocumentMeta(topic, route) {
+    if (route && route.mode === 'home') {
+      document.title = BASE_TITLE;
+      if (descriptionMeta) descriptionMeta.setAttribute('content', BASE_DESCRIPTION);
+      return;
+    }
+    if (route && route.mode === 'practice') {
+      document.title = `Skúšanie – ${BASE_TITLE}`;
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', `Skúšanie – náhodná otázka. ${BASE_DESCRIPTION}`.trim());
+      }
+      return;
+    }
+    document.title = `${topic.title} – ${BASE_TITLE}`;
+    if (descriptionMeta) {
+      descriptionMeta.setAttribute(
+        'content',
+        `${topic.num}. topic – ${topic.title}. ${BASE_DESCRIPTION}`.trim()
+      );
+    }
+  }
+
+  function scrollToHash(hash) {
+    const id = decodeURIComponent((hash || '').replace(/^#/, ''));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (target) target.scrollIntoView();
+  }
+
+  function currentQuestionSection() {
+    if (!activeRoute || !activeRoute.qnum) return null;
+    const qnum = String(activeRoute.qnum);
+    return Array.from(proseEl.querySelectorAll('.question')).find(section =>
+      section.querySelector(`.q-head h3[data-qnum="${qnum}"]`)
+    ) || proseEl.querySelector('.question');
+  }
+
+  function jumpBetweenQuestionSections(direction) {
+    const section = currentQuestionSection();
+    if (!section) return false;
+
+    const headings = Array.from(section.querySelectorAll('.q-body h4[id]'));
+    if (!headings.length) return false;
+
+    const threshold = 96;
+    const currentIndex = headings.reduce((activeIndex, heading, index) => (
+      heading.getBoundingClientRect().top <= threshold ? index : activeIndex
+    ), -1);
+    const targetIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
+    const target = headings[targetIndex] || null;
+
+    if (target) {
+      target.scrollIntoView({ block: 'start' });
+      return true;
+    }
+
+    if (direction === 'up' && targetIndex < 0) {
+      const questionHead = section.querySelector('.q-head h3');
+      if (questionHead) {
+        questionHead.scrollIntoView({ block: 'start' });
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function routeDataAttrs(target) {
+    const hash = target.hash || '';
+    const attrs = [
+      `href="${escapeHtml(routeHrefFor(target.topic, target))}"`,
+    ];
+    if (target.topic) attrs.push(`data-route-topic="${escapeHtml(target.topic.slug)}"`);
+    if (target.qnum) attrs.push(`data-route-q="${escapeHtml(String(target.qnum))}"`);
+    if (hash) attrs.push(`data-route-hash="${escapeHtml(hash)}"`);
+    if (target.mode) attrs.push(`data-route-mode="${escapeHtml(target.mode)}"`);
+    return attrs.join(' ');
+  }
+
+  function applyRouteTargetToLink(el, target) {
+    el.href = routeHrefFor(target.topic, target);
+    if (target.topic) el.dataset.routeTopic = target.topic.slug;
+    else delete el.dataset.routeTopic;
+    if (target.qnum) el.dataset.routeQ = String(target.qnum);
+    else delete el.dataset.routeQ;
+    if (target.hash) el.dataset.routeHash = target.hash;
+    else delete el.dataset.routeHash;
+    if (target.mode) el.dataset.routeMode = target.mode;
+    else delete el.dataset.routeMode;
+  }
+
+  function questionTargetFor(topic, qnum, viewMode = 'focus', hash = '', mode = null) {
+    return { topic, qnum, viewMode: 'focus', hash, mode };
+  }
+
+  function adjacentQuestionTarget(topic, qnum, direction) {
+    if (!topic || !qnum) return null;
+    const index = EXAM_TOPICS.findIndex(item => item.slug === topic.slug);
+    if (direction === 'prev') {
+      if (qnum > topic.qLo) return questionTargetFor(topic, qnum - 1);
+      if (index > 0) {
+        const prevTopic = EXAM_TOPICS[index - 1];
+        return questionTargetFor(prevTopic, prevTopic.qHi);
+      }
+      return null;
+    }
+    if (qnum < topic.qHi) return questionTargetFor(topic, qnum + 1);
+    if (index >= 0 && index < EXAM_TOPICS.length - 1) {
+      const nextTopic = EXAM_TOPICS[index + 1];
+      return questionTargetFor(nextTopic, nextTopic.qLo);
+    }
+    return null;
+  }
+
+  function renderSiteFoot(route) {
+    if (!siteFootEl) return;
+
+    const parts = [];
+    let hasPrev = false;
+    let hasNext = false;
+
+    if (route.qnum) {
+      const prevQ = adjacentQuestionTarget(route.topic, route.qnum, 'prev');
+      const nextQ = adjacentQuestionTarget(route.topic, route.qnum, 'next');
+
+      if (prevQ) {
+        hasPrev = true;
+        parts.push(
+          `<a class="site-foot-link site-foot-link--prev" ${routeDataAttrs(prevQ)}>` +
+            `<span class="site-foot-label">← Otázka ${escapeHtml(String(prevQ.qnum).padStart(2, '0'))}</span>` +
+          `</a>`
+        );
+      }
+      if (nextQ) {
+        hasNext = true;
+        parts.push(
+          `<a class="site-foot-link site-foot-link--next" ${routeDataAttrs(nextQ)}>` +
+            `<span class="site-foot-label">Otázka ${escapeHtml(String(nextQ.qnum).padStart(2, '0'))} →</span>` +
+          `</a>`
+        );
+      }
+    }
+
+    siteFootEl.className = 'site-foot';
+    if (!parts.length) {
+      siteFootEl.hidden = true;
+      siteFootEl.textContent = '';
+      return;
+    }
+    if (!hasPrev && hasNext) {
+      siteFootEl.classList.add('site-foot-next-only');
+    } else if (hasPrev && !hasNext) {
+      siteFootEl.classList.add('site-foot-prev-only');
+    }
+    siteFootEl.innerHTML = parts.join('');
+    siteFootEl.hidden = false;
+  }
+
+  async function fetchMarkdown(topic) {
+    if (!markdownCache.has(topic.file)) {
+      const request = fetch(topic.file, { cache: 'no-cache' })
+        .then(async (res) => {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.text();
+        })
+        .catch((err) => {
+          markdownCache.delete(topic.file);
+          throw err;
+        });
+      markdownCache.set(topic.file, request);
+    }
+    return markdownCache.get(topic.file);
+  }
+
+  function prefetchTopics() {
+    if (prefetchStarted) return;
+    prefetchStarted = true;
+
+    const run = () => {
+      EXAM_TOPICS.forEach((topic) => {
+        if (activeTopic && topic.slug === activeTopic.slug) return;
+        fetchMarkdown(topic).catch(() => {});
+      });
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(run, { timeout: 1200 });
+    } else {
+      setTimeout(run, 300);
+    }
+  }
+
+  // Explicit, manual links from question-title phrases to answer subheadings.
+  // We intentionally keep this manual (not fuzzy/generic), so links do not
+  // break or jump to wrong places when wording differs slightly.
+  const QUESTION_TOPIC_LINKS = {
+    '1': [
+      { phrase: 'charakteristika pojmu', heading: 'Charakteristika' },
+      { phrase: 'klasifikácia operačných systémov', heading: 'Klasifikácia operačných systémov' },
+      { phrase: 'podľa funkcií', heading: 'Podľa funkcií (podľa Tanenbauma)' },
+      { phrase: 'počtu používateľov', heading: 'Podľa počtu používateľov' },
+      { phrase: 'počtu vykonávaných úloh', heading: 'Podľa počtu vykonávaných úloh (procesov)' },
+      { phrase: 'počtu vlákien', heading: 'Podľa počtu vlákien' },
+      { phrase: 'Štruktúra číslicového počítača', heading: 'Štruktúra číslicového počítača' },
+      { phrase: 'pamäťový podsystém', heading: 'Pamäťový podsystém' },
+      { phrase: 'operačný podsystém', heading: 'Operačný podsystém' },
+      { phrase: 'riadiaci podsystém', heading: 'Riadiaci podsystém' },
+      { phrase: 'vstupno-výstupný podsystém', heading: 'Vstupno-výstupný podsystém' },
+      { phrase: 'Rozdiely medzi operačnými systémami - MS Windows, Linux, MacOS', heading: 'Rozdiely medzi MS Windows, Linux a macOS' },
+      { phrase: 'Charakteristika vybraných typov OS', heading: 'Charakteristika vybraných typov OS' },
+      { phrase: 'monolitický systém', heading: 'Monolitický systém' },
+      { phrase: 'hierarchická štruktúra', heading: 'Hierarchická štruktúra' },
+      { phrase: 'virtuálny počítač', heading: 'Virtuálny počítač' },
+      { phrase: 'model klient-server', heading: 'Model klient-server' },
+    ],
+    '2': [
+      { phrase: 'Správa pamäte', heading: 'Správa pamäte' },
+      { phrase: 'Charakteristika, rozdiel a činnosť primárnej a sekundárnej pamäte', heading: 'Charakteristika, rozdiel a činnosť primárnej a sekundárnej pamäte' },
+      { phrase: 'Princíp činnosti SSD a HDD rozdiely medzi nimi', heading: 'Princíp činnosti SSD a HDD, rozdiely medzi nimi' },
+	      { phrase: 'Charakteristika pojmov cluster, sektor, blok, cylinder', heading: 'Charakteristika pojmov cluster, sektor, blok, cylinder' },
+	      { phrase: 'fragmentácia (externá a interná)', heading: 'Fragmentácia (externá a interná)' },
+	      { phrase: 'swapping', heading: 'Swapping' },
+	      { phrase: 'virtuálna pamäť', heading: 'Virtuálna pamäť' },
+      { phrase: 'Stratégie primárnej pamäte a rozdiely medzi nimi: spojité a nespojité', heading: 'Stratégie primárnej pamäte a rozdiely medzi nimi: spojité a nespojité' },
+      { phrase: 'segmentácie,', heading: 'Segmentácia' },
+      { phrase: 'stránkovania,', heading: 'Stránkovanie' },
+      { phrase: 'segmentácie a stránkovanie na žiadosť', heading: 'Segmentácia a stránkovanie na žiadosť' },
+    ],
+    '3': [
+      { phrase: 'Charakteristika a klasifikácia súborových systémov', heading: 'Charakteristika a klasifikácia súborových systémov' },
+      { phrase: 'atribúty súboru', heading: 'Atribúty súboru' },
+	      { phrase: 'adresáre so stromovou štruktúrou', heading: 'Adresáre so stromovou štruktúrou' },
+	      { phrase: 'acyklickými adresármi', heading: 'Acyklické adresáre' },
+      { phrase: 'ochrana prístupu k súborom', heading: 'Ochrana prístupu k súborom' },
+      { phrase: 'journaling', heading: 'Journaling' },
+      { phrase: 'Charakteristika a komparácia FAT 32, exFAT, NTFS, ext2, ext3 a ext4', heading: 'Charakteristika a komparácia FAT 32, exFAT, NTFS, ext2, ext3 a ext4' },
+    ],
+	    '4': [
+	      { phrase: 'Procesy', heading: 'Procesy' },
+	      { phrase: 'vlákna', heading: 'Vlákna', topicIncludes: 'Procesy a vlákna' },
+	      { phrase: 'Životný cyklus procesov', heading: 'Životný cyklus procesov' },
+	      { phrase: '2stavový model', heading: '2-stavový model' },
+	      { phrase: '3stavový model', heading: '3-stavový model' },
+	      { phrase: '5stavový model', heading: '5-stavový model' },
+	      { phrase: 'Plánovacie algoritmy', heading: 'Plánovacie algoritmy' },
+	      { phrase: 'FCFS', heading: 'FCFS' },
+	      { phrase: 'SPN(SJN)', heading: 'SPN (SJN)' },
+	      { phrase: 'SRT', heading: 'SRT' },
+	      { phrase: 'Deadlock – vznik uviaznutia a riešenia predchádzaniu vzniku deadlocku', heading: 'Deadlock' },
+      { phrase: 'Vlákna – definícia, rozdiel medzi procesom a vláknom', heading: 'Vlákna' },
+      { phrase: 'User Level Threads, Kernel Level Threads – charakteristika, rozdiely, výhody a nevýhody', heading: 'User vs. Kernel Level Threads – charakteristika, rozdiely, výhody a nevýhody' },
+    ],
+    '5': [
+      { phrase: 'Zobrazenie informácie v počítači', heading: 'Zobrazenie informácie v počítači' },
+      { phrase: 'vyjadrenie čísel v počítači', heading: 'Vyjadrenie čísel v počítači' },
+      { phrase: 'pozičné a nepozičné číselné sústavy', heading: 'Pozičné a nepozičné číselné sústavy' },
+      { phrase: 'algoritmy prevodov medzi sústavami (binárna, decimálna, hexadecimálna)', heading: 'Algoritmy prevodov medzi sústavami (binárna, decimálna, hexadecimálna)' },
+      { phrase: 'Byte (prevody jednotiek)', heading: 'Byte (prevody jednotiek)' },
+      { phrase: 'základné časti počítača, popis a princíp jednotlivých komponentov', heading: 'Základné časti počítača, popis a princíp jednotlivých komponentov' },
+    ],
+    '6': [
+      { phrase: 'Princíp analógového a digitálneho počítača', heading: 'Princíp analógového a digitálneho počítača' },
+      { phrase: 'generácie počítačov a ich súčiastky', heading: 'Generácie počítačov a ich súčiastky' },
+      { phrase: 'Flynnova klasifikácia (SISD, SIMD, MISD, MIMD)', heading: 'Flynnova klasifikácia (SISD, SIMD, MISD, MIMD)' },
+      { phrase: 'presahovanie, zreťazenie – pipeline', heading: 'Presahovanie, zreťazenie – pipeline' },
+      { phrase: 'multiprocessing symetrický/asymetrický', heading: 'Multiprocessing symetrický/asymetrický' },
+      { phrase: 'SIMD rozšírenia SSE, AVX', heading: 'SIMD rozšírenia SSE, AVX' },
+    ],
+    '7': [
+      { phrase: 'základné parametre (takt, šírka slova, efektivita mikrokódu, cache)', heading: 'Základné parametre (takt, šírka slova, efektivita mikrokódu, cache)' },
+      { phrase: 'princíp práce mikroprocesora', heading: 'Princíp práce mikroprocesora' },
+      { phrase: 'Von Neumannova a Harvardská architektúra', heading: 'Von Neumannova a Harvardská architektúra' },
+      { phrase: 'ALU, riadiaca jednotka', heading: 'ALU, riadiaca jednotka' },
+      { phrase: 'registre x86 (všeobecné, segmentové, riadiace, špeciálne)', heading: 'Registre x86 (všeobecné, segmentové, riadiace, špeciálne)' },
+      { phrase: 'prerušenia, typy prerušenia, kontrolér prerušenia', heading: 'Prerušenia, typy prerušenia, kontrolér prerušenia' },
+      { phrase: 'rezidentné programy a ich úloha v systéme', heading: 'Rezidentné programy a ich úloha v systéme' },
+    ],
+    '8': [
+      { phrase: 'inštrukčný súbor', heading: 'Inštrukčný súbor' },
+      { phrase: 'formát a typy inštrukcií', heading: 'Formát a typy inštrukcií' },
+      { phrase: 'adresné režimy', heading: 'Adresné režimy' },
+      { phrase: 'spracovanie inštrukcie a sedemtaktový inštrukčný cyklus', heading: 'Spracovanie inštrukcie a sedemtaktový inštrukčný cyklus' },
+      { phrase: 'CISC, RISC, VLIW – princíp, výhody/nevýhody', heading: 'CISC, RISC, VLIW – princíp, výhody/nevýhody' },
+      { phrase: 'meranie výkonnosti počítačov (MIPS, MOPS, FLOPS, latencia, priepustnosť)', heading: 'Meranie výkonnosti počítačov (MIPS, MOPS, FLOPS, latencia, priepustnosť)' },
+      { phrase: 'výpočet teoretického výkonu počítača', heading: 'Výpočet teoretického výkonu počítača' },
+    ],
+    '9': [
+      { phrase: 'Základné pojmy', heading: 'Základné pojmy' },
+      { phrase: 'databáza', heading: 'Databáza' },
+      { phrase: 'databázový systém', heading: 'Databázový systém' },
+      { phrase: 'informačný systém', heading: 'Informačný systém' },
+      { phrase: 'systém riadenia bázy dát', heading: 'Systém riadenia bázy dát' },
+      { phrase: 'kritéria DBS', heading: 'Kritériá databázového systému' },
+      { phrase: 'modelovanie reality', heading: 'Modelovanie reality' },
+      { phrase: 'architektúra ANSI/SPARC', heading: 'Architektúra ANSI/SPARC' },
+      { phrase: 'dátové modelovanie', heading: 'Dátové modelovanie' },
+    ],
+    '10': [
+      { phrase: 'Rozdelenie dátových modelov', heading: 'Rozdelenie dátových modelov' },
+      { phrase: 'relačný dátový model', heading: 'Relačný dátový model' },
+      { phrase: 'relačná algebra', heading: 'Relačná algebra' },
+      { phrase: 'entitno-relačný diagram', heading: 'Entitno-relačný diagram (ERD)' },
+      { phrase: 'entita', heading: 'Entita' },
+      { phrase: 'relácia', heading: 'Relácia' },
+      { phrase: 'atribút', heading: 'Atribút' },
+      { phrase: 'kľúče', heading: 'Kľúče' },
+      { phrase: 'kardinalita', heading: 'Kardinalita' },
+      { phrase: 'parcialita', heading: 'Parcialita' },
+      { phrase: 'transformácia ERD do relačnej schémy', heading: 'Transformácia ERD do relačnej schémy' },
+      { phrase: 'normalizácia a normálové formy', heading: 'Normalizácia a normálové formy' },
+    ],
+    '11': [
+      { phrase: 'SQL jazyk', heading: 'SQL jazyk' },
+      { phrase: 'štandardy', heading: 'Štandardy' },
+      { phrase: 'optimalizácia', heading: 'Optimalizácia' },
+      { phrase: 'relačné a množinové operátory', heading: 'Relačné a množinové operátory' },
+      { phrase: 'vnútorné a vonkajšie spojenia', heading: 'Vnútorné a vonkajšie spojenia' },
+      { phrase: 'prostredie a štruktúra PLSQL', heading: 'Prostredie a štruktúra PLSQL' },
+      { phrase: 'trigger', heading: 'Trigger' },
+      { phrase: 'cykly', heading: 'Cykly' },
+      { phrase: 'procedúry a funkcie', heading: 'Procedúry a funkcie' },
+    ],
+    '12': [
+      { phrase: 'Databázová architektúra', heading: 'Databázová architektúra' },
+      { phrase: 'Architektúra klient/server', heading: 'Architektúra klient/server' },
+      { phrase: 'dvoj', heading: 'Dvojúrovňová architektúra' },
+      { phrase: 'trojúrovňová', heading: 'Trojúrovňová architektúra' },
+    ],
+    '13': [
+      { phrase: 'základná štruktúra dokumentu', heading: 'Základná štruktúra dokumentu' },
+      { phrase: 'typ dokumentu – základné časti a príklady použitia', heading: 'Typ dokumentu – základné časti a príklady použitia' },
+      { phrase: 'sémantické elementy jazyka HTML5', heading: 'Sémantické elementy jazyka HTML5' },
+      { phrase: 'syntax jazyka', heading: 'Syntax jazyka' },
+      { phrase: 'rozdelenie html značiek', heading: 'Rozdelenie HTML značiek' },
+      { phrase: 'pojem atribút a hodnota', heading: 'Pojem atribút a hodnota' },
+      { phrase: 'komentáre', heading: 'Komentáre' },
+      { phrase: 'odkazy', heading: 'Odkazy' },
+      { phrase: 'zoznamy', heading: 'Zoznamy' },
+      { phrase: 'tabuľky', heading: 'Tabuľky' },
+    ],
+    '14': [
+      { phrase: 'obrázok', heading: 'Obrázok' },
+      { phrase: 'obrázok ako odkaz', heading: 'Obrázok ako odkaz' },
+      { phrase: 'povinné atribúty', heading: 'Povinné atribúty' },
+      { phrase: 'favicon', heading: 'Favicon' },
+      { phrase: 'obrázková mapa', heading: 'Obrázková mapa' },
+      { phrase: 'audio a video prvky – vlastnosti', heading: 'Audio a video prvky – vlastnosti' },
+    ],
+    '15': [
+      { phrase: 'základné použitie', heading: 'Základné použitie' },
+      { phrase: 'výhody použitia', heading: 'Výhody použitia' },
+      { phrase: 'syntax', heading: 'Syntax' },
+      { phrase: 'jednotky v CSS', heading: 'Jednotky v CSS' },
+      { phrase: 'selektory', heading: 'Selektory' },
+      { phrase: 'formátovanie textu', heading: 'Formátovanie textu' },
+      { phrase: 'blokový model jazyka CSS', heading: 'Blokový model jazyka CSS' },
+      { phrase: 'formátovanie sémantických elementov jazyka HTML5', heading: 'Formátovanie sémantických elementov jazyka HTML5' },
+      { phrase: 'pozície prvkov na stránke – obtekanie obrázka', heading: 'Pozície prvkov na stránke – obtekanie obrázka' },
+    ],
+    '16': [
+      { phrase: 'PHP – základy skriptovania na strane servera', heading: 'PHP – základy skriptovania na strane servera' },
+      { phrase: 'funkcie a premenné', heading: 'Funkcie a premenné' },
+      { phrase: 'operátory', heading: 'Operátory' },
+      { phrase: 'generovanie HTML kódu', heading: 'Generovanie HTML kódu' },
+      { phrase: 'príkazy', heading: 'Príkazy' },
+      { phrase: 'podmienky, cykly, vetvenie', heading: 'Podmienky, cykly, vetvenie' },
+      { phrase: 'zapisovanie údajov do súboru, načítavanie údajov', heading: 'Zapisovanie údajov do súboru, načítavanie údajov' },
+      { phrase: 'Princíp fungovania PHP od požiadavky po odozvu', heading: 'Princíp fungovania PHP od požiadavky po odozvu' },
+    ],
+    '17': [
+      { phrase: 'Vektorová', heading: 'Vektorová grafika' },
+      { phrase: 'rastrová grafika', heading: 'Rastrová grafika' },
+      { phrase: 'vlastnosti a spôsob vykresľovania rastrového a vektorového obrázku', heading: 'Vlastnosti a spôsob vykresľovania rastrového a vektorového obrázku' },
+      { phrase: 'Krivky v počítačovej grafike', heading: 'Krivky v počítačovej grafike' },
+      { phrase: 'formáty', heading: 'Formáty' },
+      { phrase: 'prevody medzi rastr. a vekt. obrázkom', heading: 'Prevody medzi rastrovým a vektorovým obrázkom' },
+      { phrase: 'algoritmy na vykresľovanie rastrovej úsečky', heading: 'Algoritmy na vykresľovanie rastrovej úsečky' },
+      { phrase: 'rasterizácia kružnice', heading: 'Rasterizácia kružnice' },
+      { phrase: 'interpolačná a aproximačná krivka', heading: 'Interpolačná a aproximačná krivka' },
+    ],
+    '18': [
+      { phrase: 'Dvojrozmerné transformácie v počítačovej grafike', heading: 'Dvojrozmerné transformácie v počítačovej grafike' },
+      { phrase: 'posunutie', heading: 'Posunutie' },
+      { phrase: 'zrkadlenie', heading: 'Zrkadlenie' },
+      { phrase: 'zmena mierky', heading: 'Zmena mierky' },
+      { phrase: 'skosenie', heading: 'Skosenie' },
+      { phrase: 'rotácia', heading: 'Rotácia' },
+      { phrase: 'matematické vyjadrenie transformácií', heading: 'Matematické vyjadrenie transformácií' },
+      { phrase: 'skladanie transformácií', heading: 'Skladanie transformácií' },
+    ],
+    '19': [
+      { phrase: 'vzorkovanie', heading: 'Vzorkovanie' },
+      { phrase: 'kvantizácia', heading: 'Kvantizácia' },
+      { phrase: 'model CIE x,y,z', heading: 'Model CIE XYZ' },
+      { phrase: 'farebné modely', heading: 'Farebné modely' },
+      { phrase: 'skladanie farieb v modeloch', heading: 'Skladanie farieb v modeloch' },
+      { phrase: 'gamut výstupných zariadení', heading: 'Gamut výstupných zariadení' },
+      { phrase: 'Charakteristika a vlastnosti farieb', heading: 'Charakteristika a vlastnosti farieb' },
+      { phrase: 'charakteristika farebných schém', heading: 'Charakteristika farebných schém' },
+    ],
+	    '20': [
+	      { phrase: 'vstupné', heading: 'Vstupné zariadenia' },
+	      { phrase: 'výstupné', heading: 'Výstupné zariadenia' },
+	      { phrase: 'vstupno-výstupné', heading: 'Vstupno-výstupné zariadenia' },
+	      { phrase: 'porty', heading: 'Porty' },
+	      { phrase: 'parametre', heading: 'Parametre zariadení' },
+	      { phrase: 'spôsob vykreslenia obrazu', heading: 'Spôsob vykreslenia obrazu' },
+	      { phrase: 'ergonómia zariadení', heading: 'Ergonómia zariadení' },
+    ],
+    '21': [
+      { phrase: 'Virtuálna', heading: 'Virtuálna realita' },
+      { phrase: 'zmiešaná realita', heading: 'Zmiešaná realita' },
+      { phrase: 'Motion Capture systémy', heading: 'Motion Capture systémy' },
+      { phrase: 'činnosť zobrazovanie obrazu vo virtuálnej a zmiešanej realite', heading: 'Činnosť zobrazovania obrazu vo VR/MR' },
+      { phrase: 'príklady zobrazenia', heading: 'Príklady zobrazenia' },
+      { phrase: 'využitie', heading: 'Využitie VR a MR', topicIncludes: 'príklady zobrazenia' },
+      { phrase: 'prínosy a úskalia', heading: 'Prínosy a úskalia' },
+      { phrase: 'MOCAP charakteristika', heading: 'Motion Capture systémy' },
+      { phrase: 'klasifikácia', heading: 'Klasifikácia' },
+      { phrase: 'spôsob zaznamenávanie pohybu', heading: 'Spôsob zaznamenávania pohybu' },
+      { phrase: 'využitie', heading: 'Využitie MOCAP', topicIncludes: 'MOCAP charakteristika' },
+      { phrase: 'rigovanie', heading: 'Rigovanie' },
+      { phrase: 'príklady využitia', heading: 'Príklady využitia' },
+    ],
+    '22': [
+      { phrase: 'Algoritmus a jeho vlastnosti', heading: 'Algoritmus a jeho vlastnosti' },
+      { phrase: 'spôsoby zápisu algoritmu', heading: 'Spôsoby zápisu algoritmu' },
+      { phrase: 'základné programovacie paradigmy', heading: 'Základné programovacie paradigmy' },
+      { phrase: 'procedurálne a objektovo orientované programovanie', heading: 'Procedurálne a objektovo orientované programovanie' },
+      { phrase: 'Základné algoritmické konštrukcie: sekvencia, vetvenie, cyklus', heading: 'Základné algoritmické konštrukcie: sekvencia, vetvenie, cyklus' },
+      { phrase: 'Pojmy príkaz, výraz, premenná', heading: 'Pojmy príkaz, výraz, premenná' },
+      { phrase: 'Základné a zložené údajové typy', heading: 'Základné a zložené údajové typy' },
+      { phrase: 'Rekurzia', heading: 'Rekurzia' },
+    ],
+    '23': [
+      { phrase: 'Abstraktné údajové typy', heading: 'Abstraktné údajové typy' },
+      { phrase: 'zásobník', heading: 'Zásobník' },
+      { phrase: 'front', heading: 'Front' },
+      { phrase: 'zreťazený zoznam', heading: 'Zreťazený zoznam' },
+      { phrase: 'Implementácia a použitie abstraktných údajových typov', heading: 'Implementácia a použitie abstraktných údajových typov' },
+    ],
+	    '24': [
+	      { phrase: 'Objektovo orientované programovanie', heading: 'Objektovo orientované programovanie' },
+	      { phrase: 'Trieda a objekt', heading: 'Trieda a objekt' },
+	      { phrase: 'Zapúzdrenie', heading: 'Zapúzdrenie' },
+	      { phrase: 'abstrakcia', heading: 'Abstrakcia' },
+	      { phrase: 'dedičnosť', heading: 'Dedičnosť' },
+	      { phrase: 'polymorfizmus', heading: 'Polymorfizmus' },
+	      { phrase: 'Prístupové práva', heading: 'Prístupové práva' },
+	      { phrase: 'Využívanie konštruktora a metód nadtriedy', heading: 'Konštruktor a metódy nadtriedy' },
+      { phrase: 'prekrývanie, preťažovanie a prekonávanie', heading: 'Prekrývanie, preťažovanie a prekonávanie' },
+      { phrase: 'Abstraktné metódy a triedy', heading: 'Abstraktné metódy a triedy' },
+    ],
+    '25': [
+      { phrase: 'Usporadúvanie prebublávaním', heading: 'Usporadúvanie prebublávaním' },
+      { phrase: 'usporadúvanie priamym vkladaním', heading: 'Usporadúvanie priamym vkladaním' },
+      { phrase: 'usporadúvanie výberom', heading: 'Usporadúvanie výberom' },
+      { phrase: 'Rýchle usporadúvanie (quick-sort)', heading: 'Rýchle usporadúvanie (quick-sort)' },
+      { phrase: 'Usporadúvanie', heading: 'Usporadúvanie' },
+      { phrase: 'Časová a priestorová zložitosť algoritmov usporadúvania', heading: 'Časová a priestorová zložitosť algoritmov usporadúvania' },
+      { phrase: 'stabilita algoritmov usporadúvania', heading: 'Stabilita algoritmov usporadúvania' },
+    ],
+    '26': [
+      { phrase: 'Základná terminológia – pojmy informačný systém, metóda, metodika, nástroj', heading: 'Základná terminológia' },
+      { phrase: 'Základné komponenty IS', heading: 'Základné komponenty IS' },
+      { phrase: 'architektúry IS', heading: 'Architektúry IS' },
+      { phrase: 'životný cyklus vývoja IS', heading: 'Životný cyklus vývoja IS' },
+      { phrase: 'klasické a agilné metodiky vývoja IS', heading: 'Klasické a agilné metodiky vývoja IS' },
+      { phrase: 'Úloha a rozdelenie CASE', heading: 'Úloha a rozdelenie CASE' },
+    ],
+    '27': [
+      { phrase: 'Princípy softvérového inžinierstva', heading: 'Princípy softvérového inžinierstva' },
+      { phrase: 'Základné pojmy softvérového inžinierstva', heading: 'Základné pojmy softvérového inžinierstva' },
+      { phrase: 'softvérová kríza', heading: 'Softvérová kríza' },
+      { phrase: 'tvorba softvéru a problémy pri tvorbe', heading: 'Tvorba softvéru a problémy pri tvorbe' },
+      { phrase: 'charakteristika kvality', heading: 'Charakteristika kvality' },
+      { phrase: 'atribúty kvality', heading: 'Atribúty kvality' },
+    ],
+    '28': [
+      { phrase: 'Procesy vývoja systému', heading: 'Procesy vývoja systému' },
+      { phrase: 'Životný cyklus a modely procesu vývoja', heading: 'Životný cyklus a modely procesu vývoja' },
+      { phrase: 'fázy životného cyklu', heading: 'Fázy životného cyklu' },
+      { phrase: 'princípy a metódy pri tvorbe softvéru', heading: 'Princípy a metódy pri tvorbe softvéru' },
+      { phrase: 'špecifikácia požiadaviek', heading: 'Špecifikácia požiadaviek' },
+      { phrase: 'štruktúrovaný prístup k modelovaniu', heading: 'Štruktúrovaný prístup k modelovaniu' },
+      { phrase: 'validácia a verifikácia', heading: 'Validácia a verifikácia' },
+      { phrase: 'testovanie', heading: 'Testovanie' },
+    ],
+    '29': [
+      { phrase: 'UML', heading: 'UML (Unified Modeling Language)' },
+      { phrase: 'diagram tried', heading: 'Diagram tried (class diagram)' },
+      { phrase: 'diagram prípadov použitia a slovný scenár', heading: 'Diagram prípadov použitia a slovný scenár' },
+      { phrase: 'sekvenčný diagram', heading: 'Sekvenčný diagram (sequence diagram)' },
+      { phrase: 'stavový diagram', heading: 'Stavový diagram (state diagram)' },
+      { phrase: 'diagram aktivít', heading: 'Diagram aktivít (activity diagram)' },
+    ],
+	    '30': [
+	      { phrase: 'Výroková', heading: 'Výroková logika' },
+	      { phrase: 'predikátová logika', heading: 'Predikátová logika' },
+	      { phrase: 'Výrok,', heading: 'Výrok' },
+	      { phrase: 'pravdivostná hodnota a logické spojky', heading: 'Pravdivostná hodnota a logické spojky' },
+	      { phrase: 'Rozdiel medzi výrokovou a predikátovou logikou', heading: 'Rozdiel medzi výrokovou a predikátovou logikou' },
+	    ],
+	    '31': [
+	      { phrase: 'Regulárne jazyky', heading: 'Regulárne jazyky' },
+	      { phrase: 'Regulárne gramatiky', heading: 'Regulárne gramatiky' },
+	      { phrase: 'Konečné automaty', heading: 'Konečné automaty' },
+	      { phrase: 'deterministické', heading: 'Deterministické konečné automaty' },
+	      { phrase: 'nedeterministické', heading: 'Nedeterministické konečné automaty' },
+	      { phrase: 'Uzavretosť jazykov', heading: 'Uzavretosť jazykov' },
+	    ],
+    '32': [
+      { phrase: 'Bezkontextové jazyky', heading: 'Bezkontextové jazyky' },
+      { phrase: 'Bezkontextové gramatiky', heading: 'Bezkontextové gramatiky' },
+      { phrase: 'Zásobníkové automaty', heading: 'Zásobníkové automaty (PDA)' },
+    ],
+    '33': [
+      { phrase: 'Frázové jazyky', heading: 'Frázové jazyky' },
+      { phrase: 'Turingov stroj', heading: 'Turingov stroj' },
+      { phrase: 'Univerzálny TS', heading: 'Univerzálny Turingov stroj (UTS)' },
+    ],
+	    '34': [
+	      { phrase: 'Rozdelenie problémov do tried zložitosti', heading: 'Rozdelenie problémov do tried zložitosti' },
+	      { phrase: 'Triedy zložitosti P vs. NP', heading: 'Triedy zložitosti P vs. NP' },
+	      { phrase: 'NP-úplnosť', heading: 'NP-úplnosť' },
+	      { phrase: 'Algoritmicky neriešiteľné problémy', heading: 'Algoritmicky neriešiteľné problémy' },
+	    ],
+	    '35': [
+	      { phrase: 'Vrstvový model architektúry počítačových sietí', heading: 'Vrstvový model architektúry počítačových sietí' },
+	      { phrase: 'ISO OSI', heading: 'ISO/OSI model' },
+	      { phrase: 'vrstvy a ich služby', heading: 'Vrstvový model architektúry počítačových sietí' },
+	      { phrase: 'porovnanie modelov', heading: 'Porovnanie modelov' },
+	      { phrase: 'Základné protokoly modelu TCP/IP', heading: 'Základné protokoly modelu TCP/IP' },
+	      { phrase: 'TCP/IP', heading: 'TCP/IP model' },
+	      { phrase: 'ARP', heading: 'ARP (Address Resolution Protocol)' },
+	      { phrase: 'IP,', heading: 'IP (Internet Protocol)' },
+	      { phrase: 'ICMP', heading: 'ICMP (Internet Control Message Protocol)' },
+      { phrase: 'TCP,', heading: 'TCP (Transmission Control Protocol)' },
+      { phrase: 'UDP', heading: 'UDP (User Datagram Protocol)' },
+      { phrase: 'DNS', heading: 'DNS (Domain Name System)' },
+    ],
+    '36': [
+      { phrase: 'sieťové topológie', heading: 'Sieťové topológie' },
+      { phrase: 'prenosové médiá', heading: 'Prenosové médiá' },
+      { phrase: 'prístupové metódy', heading: 'Prístupové metódy' },
+      { phrase: 'aktívne sieťové prvky', heading: 'Aktívne sieťové prvky' },
+    ],
+    '37': [
+      { phrase: 'IPv4 adresa', heading: 'IPv4 adresa' },
+      { phrase: 'sieťová maska', heading: 'Sieťová maska' },
+      { phrase: 'CIDR', heading: 'CIDR (Classless Inter-Domain Routing)' },
+      { phrase: 'Smerovanie', heading: 'Smerovanie' },
+      { phrase: 'Bezpečnosť v sieťach', heading: 'Bezpečnosť v sieťach' },
+      { phrase: 'Firewall', heading: 'Firewall' },
+      { phrase: 'IDS', heading: 'IDS (Intrusion Detection System)' },
+    ],
+    '38': [
+      { phrase: 'Základné historické/súčasné kryptografické systémy', heading: 'Základné historické/súčasné kryptografické systémy' },
+      { phrase: 'symetrické', heading: 'Symetrické systémy' },
+      { phrase: 'asymetrické systémy', heading: 'Asymetrické systémy' },
+      { phrase: 'digitálny podpis', heading: 'Digitálny podpis' },
+    ],
+    '39': [
+      { phrase: 'Bezpečnostná politika', heading: 'Bezpečnostná politika' },
+      { phrase: 'mechanizmy zaistenia dôvernosti', heading: 'Mechanizmy zaistenia dôvernosti' },
+      { phrase: 'integrity', heading: 'Mechanizmy zaistenia integrity' },
+      { phrase: 'dostupnosti aktív počítačových systémov', heading: 'Mechanizmy zaistenia dostupnosti' },
+      { phrase: 'princíp certifikačnej autority', heading: 'Princíp certifikačnej autority' },
+    ],
+  };
+
+  function slugify(s) {
+    return s.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '').slice(0, 60);
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function normalizeTextKey(s) {
+    return s
+      .toLocaleLowerCase('sk')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  // Split a compound question title into sub-topics at sentence boundaries.
+  // Heuristic: split at "period/!/?  +  whitespace  +  capital letter",
+  // allowing inline tags before the capital letter, e.g. Markdown links.
+  // (Slovak diacritics included). Punctuation stays with the preceding
+  // topic, the capital letter stays with the next. Works on the h3 HTML
+  // string because inline <code> spans don't contain sentence-ending
+  // periods, so matches only occur in text content.
+  function splitQuestionIntoTopics(html) {
+    const MARKER = '\u0001';
+    const PROTECTED_DOT = '\u0002';
+    const CAPS = 'A-ZŠČŤŽĎŇĽĹŔÁÉÍÓÚÝÄÖÜ';
+    const re = new RegExp('([.!?])\\s+((?:<[^>]+>\\s*)*[' + CAPS + '])', 'g');
+    return html
+      // Keep common abbreviations like "vs." inside a single topic.
+      .replace(/\bvs\./gi, match => match.slice(0, -1) + PROTECTED_DOT)
+      .replace(re, '$1' + MARKER + '$2')
+      .split(MARKER)
+      .map(s => s.replaceAll(PROTECTED_DOT, '.'))
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
+  // Wrap each question in a <section class="question"> so a single border
+  // can frame the whole card, and further split it into a <header class=
+  // "q-head"> (the question title only) and <div class="q-body"> (the
+  // whole answer – including the intro one-liner blockquote, h4 sections,
+  // lists, etc.). The split lets CSS shade the question zone differently
+   // from the answer zone.
+  function wrapQuestionsInSections(root) {
+    const nodes = Array.from(root.children);
+    let section = null;
+    let body = null;
+    nodes.forEach(el => {
+      if (el.tagName === 'H2') {
+        section = body = null;
+        return;
+      }
+      if (el.tagName === 'H3') {
+        section = document.createElement('section');
+        section.className = 'question';
+        const head = document.createElement('header');
+        head.className = 'q-head';
+        body = document.createElement('div');
+        body.className = 'q-body';
+        section.appendChild(head);
+        section.appendChild(body);
+        root.insertBefore(section, el);
+        head.appendChild(el);
+        return;
+      }
+      if (section) body.appendChild(el);
+    });
+  }
+
+  function flagInteractiveQuestions(root) {
+    root.querySelectorAll('.question').forEach(section => {
+      const visualizers = section.querySelectorAll(
+        '.q-body [class$="-visualizer"], .q-body [class*="-visualizer "]'
+      );
+      if (!visualizers.length) return;
+
+      section.classList.add('question-has-visualizer');
+      visualizers.forEach(el => el.classList.add('visualizer-block'));
+    });
+  }
+
+  // Replace the first matching phrase inside an element with an anchor.
+  // Used to turn key terms in question topics into jump links to matching
+  // subsection headings within the same question card.
+  function linkFirstPhraseInElement(el, phrase, targetId) {
+    const needle = phrase.toLocaleLowerCase('sk');
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!node.nodeValue.trim()) continue;
+      if (node.parentElement && node.parentElement.closest('a')) continue;
+      const haystack = node.nodeValue.toLocaleLowerCase('sk');
+      const at = haystack.indexOf(needle);
+      if (at === -1) continue;
+
+      const before = node.nodeValue.slice(0, at);
+      const matched = node.nodeValue.slice(at, at + phrase.length);
+      const after = node.nodeValue.slice(at + phrase.length);
+      const frag = document.createDocumentFragment();
+
+      if (before) frag.appendChild(document.createTextNode(before));
+      const a = document.createElement('a');
+      a.href = '#' + targetId;
+      a.className = 'q-topic-link';
+      a.textContent = matched;
+      frag.appendChild(a);
+      if (after) frag.appendChild(document.createTextNode(after));
+
+      node.parentNode.replaceChild(frag, node);
+      return true;
+    }
+    return false;
+  }
+
+  // For each question card, link manually configured key phrases in the
+  // question title to specific subsections in that same answer.
+  function addQuestionTopicJumpLinks(root) {
+    root.querySelectorAll('.question').forEach(section => {
+      const h3 = section.querySelector('.q-head h3');
+      if (!h3) return;
+      const qnum = h3.dataset.qnum;
+      const baseId = h3.id || 'q';
+
+      const used = new Set();
+      const headingIndex = new Map();
+      section.querySelectorAll('.q-body h4, .q-body h5').forEach(headingEl => {
+        const label = headingEl.textContent.trim();
+        if (!label) return;
+
+        const idBase = `${baseId}-${slugify(label)}`;
+        let id = idBase;
+        let n = 2;
+        while (used.has(id) || (document.getElementById(id) && document.getElementById(id) !== headingEl)) {
+          id = `${idBase}-${n++}`;
+        }
+        used.add(id);
+        headingEl.id = id;
+        const key = normalizeTextKey(label);
+        if (!headingIndex.has(key)) headingIndex.set(key, []);
+        headingIndex.get(key).push({ id, label });
+      });
+
+      const rules = QUESTION_TOPIC_LINKS[qnum];
+      if (!rules || !rules.length) return;
+
+      rules.forEach(rule => {
+        const targets = headingIndex.get(normalizeTextKey(rule.heading));
+        if (!targets || !targets.length) return;
+        const targetId = targets[rule.targetIndex || 0]?.id;
+        if (!targetId) return;
+
+        section.querySelectorAll('.q-head .q-topic').forEach(topic => {
+          if (rule.topicIncludes) {
+            const topicText = topic.textContent.toLocaleLowerCase('sk');
+            const required = String(rule.topicIncludes).toLocaleLowerCase('sk');
+            if (!topicText.includes(required)) return;
+          }
+          linkFirstPhraseInElement(topic, rule.phrase, targetId);
+        });
+      });
+    });
+  }
+
+  function syncQuestionTopicLinkWrapping(root) {
+    root.querySelectorAll('.q-head .q-topic a.q-topic-link').forEach(link => {
+      link.classList.remove('q-topic-link--atomic');
+
+      const topic = link.closest('.q-topic');
+      if (!topic) return;
+
+      const style = getComputedStyle(topic);
+      const availableWidth =
+        topic.getBoundingClientRect().width -
+        parseFloat(style.paddingLeft || 0) -
+        parseFloat(style.paddingRight || 0);
+
+      if (!(availableWidth > 0)) return;
+
+      const prevDisplay = link.style.display;
+      const prevWhiteSpace = link.style.whiteSpace;
+
+      link.style.display = 'inline-block';
+      link.style.whiteSpace = 'nowrap';
+      const requiredWidth = link.getBoundingClientRect().width;
+      link.style.display = prevDisplay;
+      link.style.whiteSpace = prevWhiteSpace;
+
+      if (requiredWidth <= availableWidth + 0.5) {
+        link.classList.add('q-topic-link--atomic');
+      }
+    });
+  }
+
+  // Two stacked horizontal bars at the top of each question card:
+  //   1. all 9 topics (compact tag pills)
+  //   2. the questions inside the current topic, with their short label
+  // The active tab on each row highlights where the reader currently is,
+  // so this doubles as a "you are here" map + quick jump-to nav.
+  // Do not add aria-label/title tooltip text here. The labels are visible in
+  // the UI and browser hover tooltips make this private study nav noisier.
+  function buildQuestionNavBars(currentTopic, currentQnum) {
+    const wrap = document.createElement('div');
+    wrap.className = 'q-tabs';
+
+    const topicRow = document.createElement('nav');
+    topicRow.className = 'q-tabs-row q-tabs-topics';
+    EXAM_TOPICS.forEach(topic => {
+      const a = document.createElement('a');
+      const isActive = topic.slug === currentTopic.slug;
+      const marker = commissionMarkerForTopic(topic);
+      a.className = 'q-tab q-tab-topic' + (isActive ? ' is-active' : '') + (marker ? ' q-tab-topic--commission' : '');
+      applyRouteTargetToLink(a, questionTargetFor(topic, topic.qLo));
+      a.innerHTML =
+        '<span class="q-tab-tag">' + escapeHtml(topic.tag || topic.num) + '</span>' +
+        (marker ? '<span class="q-tab-commission">' + escapeHtml(marker) + '</span>' : '');
+      topicRow.appendChild(a);
+    });
+    wrap.appendChild(topicRow);
+
+    const qRow = document.createElement('nav');
+    qRow.className = 'q-tabs-row q-tabs-questions';
+    for (let qnum = currentTopic.qLo; qnum <= currentTopic.qHi; qnum += 1) {
+      const a = document.createElement('a');
+      const isActive = qnum === currentQnum;
+      a.className = 'q-tab q-tab-question' + (isActive ? ' is-active' : '');
+      applyRouteTargetToLink(a, questionTargetFor(currentTopic, qnum));
+      const label = questionLabelFor(currentTopic, qnum);
+      a.innerHTML =
+        '<span class="q-tab-num">' + String(qnum).padStart(2, '0') + '</span>' +
+        (label ? '<span class="q-tab-label">' + escapeHtml(label) + '</span>' : '');
+      qRow.appendChild(a);
+    }
+    wrap.appendChild(qRow);
+
+    return wrap;
+  }
+
+  function addQuestionTabs(root, currentTopic) {
+    if (!currentTopic) return;
+    const questions = Array.from(root.querySelectorAll('.question'));
+    if (!questions.length) return;
+
+    questions.forEach((section) => {
+      const head = section.querySelector('.q-head');
+      if (!head) return;
+
+      const h3 = section.querySelector('h3[data-qnum]');
+      const qnum = h3 ? Number(h3.dataset.qnum) : null;
+      const tabs = buildQuestionNavBars(currentTopic, qnum);
+      head.insertBefore(tabs, head.firstChild);
+    });
+  }
+
+  function applyQuestionView(root, route) {
+    root.dataset.view = 'focus';
+    root.dataset.qnum = route.qnum ? String(route.qnum) : '';
+    if (!route.qnum) return;
+
+    const sections = Array.from(root.querySelectorAll('.question'));
+    let activeSection = sections.find(section =>
+      section.querySelector(`h3[data-qnum="${route.qnum}"]`)
+    );
+    if (!activeSection) activeSection = sections[0] || null;
+    sections.forEach(section => {
+      if (section !== activeSection) section.remove();
+    });
+  }
+
+  function enhance(root, currentTopic, route) {
+    // --- Annotate h2 with category number + id ---
+    const h2s = root.querySelectorAll('h2');
+    h2s.forEach(h => {
+      const txt = h.textContent.trim();
+      h.id = 'cat-' + slugify(txt);
+    });
+
+    // --- Restructure h3: pull "N." into a big display number, and break
+    //     the long compound question into separate sub-topic lines. ---
+    const h3s = root.querySelectorAll('h3');
+    h3s.forEach(h => {
+      // innerHTML preserves inline <code> (e.g. `NTFS`, `exFAT`) from markdown.
+      const rawHTML = h.innerHTML;
+      const m = rawHTML.match(/^(\d+)\.\s+([\s\S]*)$/);
+      if (!m) return;
+      const qnum = m[1];
+      const restHTML = m[2].trim();
+      h.id = 'q-' + qnum;
+      h.dataset.qnum = qnum;
+      const topicsHTML = splitQuestionIntoTopics(restHTML)
+        .map(t => '<span class="q-topic">' + t + '</span>')
+        .join(' ');
+      h.innerHTML =
+        '<span class="q-num">' + qnum + '.</span>' +
+        '<span class="q-topics">' + topicsHTML + '</span>';
+    });
+
+    // --- Wrap each question in a card-like <section>. ---
+    wrapQuestionsInSections(root);
+    flagInteractiveQuestions(root);
+    addQuestionTopicJumpLinks(root);
+    syncQuestionTopicLinkWrapping(root);
+    addQuestionTabs(root, currentTopic);
+    applyQuestionView(root, route);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (root.isConnected) syncQuestionTopicLinkWrapping(root);
+      }).catch(() => {});
+    }
+  }
+
+  // Auto-wrap technical code-like patterns (assembly, bracketed addressing,
+  // SQL keywords) in backticks so they render as inline code pills.
+  // Conservative: only touches clearly code-shaped fragments.
+  function autoWrapCode(md) {
+    const parts = md.split(/(```[\s\S]*?```|~~~[\s\S]*?~~~|`[^`\n]+`|\[\[verified:\s*[\s\S]*?\]\])/i);
+    const ASM = 'MOV|MOVZX|MOVSX|ADD|ADC|SUB|SBB|MUL|IMUL|DIV|IDIV|INC|DEC|NEG|CMP|TEST|AND|OR|XOR|NOT|SHL|SHR|SAL|SAR|ROL|ROR|JMP|JZ|JNZ|JE|JNE|JG|JL|JGE|JLE|JA|JB|JC|JNC|CALL|RET|PUSH|POP|NOP|LEA|LDA|STA|LDR|STR|XCHG';
+    const SQL = 'SELECT|FROM|WHERE|JOIN|INNER JOIN|LEFT OUTER JOIN|RIGHT OUTER JOIN|FULL OUTER JOIN|CROSS JOIN|NATURAL JOIN|GROUP BY|ORDER BY|HAVING|UNION|INTERSECT|EXCEPT|MINUS|INSERT INTO|UPDATE|DELETE FROM|CREATE TABLE|ALTER TABLE|DROP TABLE|PRIMARY KEY|FOREIGN KEY|NOT NULL|DISTINCT|EXPLAIN PLAN';
+    return parts.map((p, i) => {
+      if (i % 2 === 1) return p;
+      // 1. Assembly: MNEMONIC op[, op]
+      p = p.replace(
+        new RegExp(
+          `\\b(?:${ASM})\\s+(?:\\[[^\\]\\n]+\\]|[A-Z][A-Z0-9]{0,5})` +
+          `(?:\\s*,\\s*(?:\\[[^\\]\\n]+\\]|-?\\d+|0x[0-9A-Fa-f]+|[A-Z][A-Z0-9]{0,5}))?`,
+          'g'
+        ),
+        m => '`' + m + '`'
+      );
+      // 2. Bracketed addressing/memory: [EBX + ESI*4 + 8], [1000], [R1]
+      //    Only if content is upper-letters/digits/operators/spaces.
+      //    Excludes markdown links [text](url) via negative lookahead.
+      p = p.replace(
+        /\[((?:[A-Z][A-Z0-9 *+\-]*|\d+))\](?!\()/g,
+        (m) => '`' + m + '`'
+      );
+      // 3. SQL keywords (standalone uppercase tokens/phrases).
+      p = p.replace(
+        new RegExp(`\\b(?:${SQL})\\b`, 'g'),
+        m => '`' + m + '`'
+      );
+      return p;
+    }).join('');
+  }
+
+  // Treat [[verified: ...]] as a marked inline token so Markdown inside it
+  // is parsed normally before the existing visual style is applied.
+  marked.use({
+    extensions: [{
+      name: 'verifiedInline',
+      level: 'inline',
+      start(src) {
+        const index = src.toLowerCase().indexOf('[[verified:');
+        return index >= 0 ? index : undefined;
+      },
+      tokenizer(src) {
+        const open = '[[verified:';
+        if (src.slice(0, open.length).toLowerCase() !== open) return;
+        const closeIndex = src.indexOf(']]', open.length);
+        if (closeIndex === -1) return;
+        const raw = src.slice(0, closeIndex + 2);
+        const text = src.slice(open.length, closeIndex).trim();
+        return {
+          type: 'verifiedInline',
+          raw,
+          tokens: this.lexer.inlineTokens(text),
+        };
+      },
+      renderer(token) {
+        return '<span class="verified-inline">' + this.parser.parseInline(token.tokens) + '</span>';
+      },
+    }],
+  });
+
+  // Escape `<` outside code fences/spans so HTML tags in the study content
+  // (e.g. <!DOCTYPE html>, <html>, <body>) render as literal text instead
+  // of being parsed as real HTML by marked.
+  function escapeRawHtml(md) {
+    const parts = md.split(/(```[\s\S]*?```|~~~[\s\S]*?~~~|`[^`\n]+`|<div class="(?:sort|adt|bezier|ferguson|transform|color|turing|raster|circle|dfa|dfa-deterministic|pda)-visualizer"[^>]*><\/div>|<div class="sort-cheatsheet"[^>]*>[\s\S]*?<\/table>\s*<\/div>|<div class="sort-stability-compare"[^>]*>[\s\S]*?<p>Rovnaké hodnoty sa môžu navzájom prehodiť\.<\/p>\s*<\/div>\s*<\/div>|<div class="schedule-visual"[^>]*>[\s\S]*?<\/div>|<table class="osi-stack"[^>]*>[\s\S]*?<\/table>)/);
+    return parts.map((p, i) => i % 2 === 1 ? p : p.replace(/</g, '&lt;')).join('');
+  }
+
+  // Convert fenced ```mermaid code blocks (rendered by marked as
+  // <pre><code class="language-mermaid">…</code></pre>) into <div
+  // class="mermaid">…</div> so mermaid.run() can find and render them.
+  function transformMermaidBlocks(root) {
+    root.querySelectorAll('pre > code.language-mermaid').forEach(code => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      const src = code.textContent;
+      div.textContent = src;
+      div.setAttribute('data-source', src); // keep raw source for re-render on theme change
+      code.parentElement.replaceWith(div);
+    });
+  }
+
+  // Upgrade standalone markdown images `<p><img ...></p>` into a proper
+  // <figure> with a <figcaption> built from the image's alt text. This
+  // gives every image a clean editorial caption without needing any
+  // extra syntax in the markdown.
+  function upgradeImagesToFigures(root) {
+    root.querySelectorAll('p > img:only-child').forEach(img => {
+      const p = img.parentElement;
+      const figure = document.createElement('figure');
+      const rawSrc = img.getAttribute('src') || '';
+      if (rawSrc.includes('Caesar3.svg')) {
+        figure.classList.add('figure-half');
+      }
+      figure.appendChild(img);
+      const alt = (img.alt || '').trim();
+      if (alt) {
+        const cap = document.createElement('figcaption');
+        cap.textContent = alt;
+        figure.appendChild(cap);
+      }
+      p.replaceWith(figure);
+    });
+  }
+
+  function setupPausableGifs(root) {
+    root.querySelectorAll('img').forEach(img => {
+      const rawSrc = img.getAttribute('src') || '';
+      const src = img.currentSrc || img.src || rawSrc;
+      if (!/\.gif(?:$|[?#])/i.test(rawSrc) && !/\.gif(?:$|[?#])/i.test(src)) return;
+
+      img.classList.add('pausable-gif');
+      img.dataset.originalSrc = rawSrc || src;
+
+      img.addEventListener('click', () => {
+        if (img.dataset.gifPaused === '1') {
+          img.dataset.gifPaused = '0';
+          img.src = img.dataset.originalSrc;
+          return;
+        }
+
+        if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        try {
+          ctx.drawImage(img, 0, 0);
+          img.src = canvas.toDataURL('image/png');
+          img.dataset.gifPaused = '1';
+        } catch (_) {
+          img.dataset.gifPaused = '0';
+        }
+      });
+    });
+  }
+
+
+
+  // Mermaid palettes — mirrors CSS palette per theme.
+  const MERMAID_VARS_COMMON = {
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+    fontSize: '14px',
+  };
+  const MERMAID_VARS_LIGHT = Object.assign({}, MERMAID_VARS_COMMON, {
+    background: '#fafaf9',
+    primaryColor: '#f5f5f4',
+    primaryBorderColor: '#3d3d3d',
+    primaryTextColor: '#0a0a0a',
+    secondaryColor: '#efefed',
+    secondaryBorderColor: '#3d3d3d',
+    secondaryTextColor: '#0a0a0a',
+    tertiaryColor: '#fafaf9',
+    tertiaryBorderColor: '#d4d4d2',
+    tertiaryTextColor: '#0a0a0a',
+    lineColor: '#3d3d3d',
+    textColor: '#1f1f1f',
+    mainBkg: '#f5f5f4',
+    secondBkg: '#efefed',
+    noteBkgColor: '#efefed',
+    noteBorderColor: '#d4d4d2',
+    noteTextColor: '#0a0a0a',
+  });
+  const MERMAID_VARS_DARK = Object.assign({}, MERMAID_VARS_COMMON, {
+    background: '#0b0b0c',
+    primaryColor: '#18181b',
+    primaryBorderColor: '#706d66',
+    primaryTextColor: '#ededea',
+    secondaryColor: '#1f1f22',
+    secondaryBorderColor: '#706d66',
+    secondaryTextColor: '#ededea',
+    tertiaryColor: '#0b0b0c',
+    tertiaryBorderColor: '#32323a',
+    tertiaryTextColor: '#ededea',
+    lineColor: '#9e9b93',
+    textColor: '#cecbc4',
+    mainBkg: '#18181b',
+    secondBkg: '#1f1f22',
+    noteBkgColor: '#1f1f22',
+    noteBorderColor: '#32323a',
+    noteTextColor: '#ededea',
+  });
+
+  async function ensureMermaid() {
+    if (window.mermaid) return window.mermaid;
+    if (!mermaidPromise) {
+      mermaidPromise = import(MERMAID_CDN_URL)
+        .then((mod) => {
+          const api = mod.default || mod;
+          window.mermaid = api;
+          initMermaidForTheme(document.documentElement.getAttribute('data-theme') || 'light');
+          return api;
+        })
+        .catch((err) => {
+          mermaidPromise = null;
+          throw err;
+        });
+    }
+    return mermaidPromise;
+  }
+
+  function initMermaidForTheme(theme) {
+    if (!window.mermaid) return;
+    window.mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'base',
+      themeVariables: theme === 'dark' ? MERMAID_VARS_DARK : MERMAID_VARS_LIGHT,
+    });
+  }
+
+  async function rerenderMermaid() {
+    const nodes = document.querySelectorAll('.prose .mermaid');
+    if (!nodes.length) return;
+    const mermaidApi = await ensureMermaid();
+    nodes.forEach(el => {
+      const src = el.getAttribute('data-source');
+      if (!src) return;
+      el.removeAttribute('data-processed');
+      el.innerHTML = '';
+      el.textContent = src;
+    });
+    try { await mermaidApi.run({ querySelector: '.prose .mermaid' }); }
+    catch (err) { console.warn('Mermaid re-render failed', err); }
+  }
+
+  // ---------- Skúšanie (practice) ----------
+  const DICE_SVG =
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+      '<rect x="3" y="3" width="18" height="18" rx="3.5" ry="3.5"/>' +
+      '<circle cx="8" cy="8" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="16" cy="8" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="8" cy="16" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="16" cy="16" r="1.2" fill="currentColor" stroke="none"/>' +
+    '</svg>';
+
+  function applyPracticeMode(root, route) {
+    const question = root.querySelector('.question');
+    if (!question) return;
+    question.classList.add('practice-question');
+    question.dataset.practiceQnum = String(route.qnum || '');
+
+    const body = question.querySelector('.q-body');
+    if (body) {
+      body.hidden = true;
+      body.dataset.practiceAnswer = 'hidden';
+    }
+
+  }
+
+  function routeTargetFromLink(routeLink) {
+    const topic = EXAM_TOPIC_BY_SLUG[routeLink.dataset.routeTopic] || null;
+    const mode = routeLink.dataset.routeMode || null;
+    if (!topic && !mode) return null;
+    return {
+      topic,
+      qnum: normalizeQuestionNum(routeLink.dataset.routeQ),
+      viewMode: 'focus',
+      hash: routeLink.dataset.routeHash || routeLink.hash || '',
+      mode,
+    };
+  }
+
+  function navigateToRoute(target, { replace = false } = {}) {
+    if (!target) return;
+    const url = target.topic
+      ? routeHrefFor(target.topic, target)
+      : (() => {
+          if (target.mode === 'home') return location.pathname;
+          const p = new URLSearchParams();
+          if (target.mode) p.set('mode', target.mode);
+          if (target.qnum) p.set('q', String(target.qnum));
+          return `${location.pathname}?${p.toString()}`;
+        })();
+    const currentUrl = location.pathname + location.search + location.hash;
+    if (url === currentUrl) {
+      if (target.hash) scrollToHash(target.hash);
+      else window.scrollTo({ top: 0, left: 0 });
+      return;
+    }
+    history[replace ? 'replaceState' : 'pushState']({}, '', url);
+    load();
+  }
+
+  async function load() {
+    const seq = ++loadSeq;
+    const route = resolveRoute();
+    const hadRenderedContent = proseEl.dataset.ready === '1';
+    const hasCachedMarkdown = route.topic ? markdownCache.has(route.topic.file) : false;
+
+    if (route.needsCanonical) history.replaceState({}, '', route.canonicalUrl);
+    if (route.mode === 'home') {
+      proseEl.hidden = false;
+      proseEl.dataset.view = 'home';
+      proseEl.innerHTML = '';
+      proseEl.dataset.ready = '1';
+      if (siteFootEl) { siteFootEl.hidden = true; siteFootEl.textContent = ''; }
+      document.body.classList.remove('practice-mode');
+      document.body.classList.add('home-mode');
+      activeTopic = null;
+      activeRoute = route;
+      setDocumentMeta(null, route);
+      document.dispatchEvent(new CustomEvent('statna-skuska:route-changed', {
+        detail: { route: activeRoute ? { ...activeRoute } : null },
+      }));
+      window.scrollTo({ top: 0, left: 0 });
+      prefetchTopics();
+      return;
+    }
+    document.body.classList.remove('home-mode');
+
+    proseEl.hidden = false;
+    if (!hadRenderedContent && !hasCachedMarkdown) {
+      proseEl.innerHTML = '<div class="state">Načítavam topic…</div>';
+      proseEl.dataset.view = route.viewMode;
+      if (siteFootEl) siteFootEl.hidden = true;
+    }
+
+    try {
+      const md = await fetchMarkdown(route.topic);
+      if (seq !== loadSeq) return;
+      const safe = escapeRawHtml(autoWrapCode(md));
+      proseEl.innerHTML = marked.parse(safe, { gfm: true, breaks: false, headerIds: false, mangle: false });
+      transformMermaidBlocks(proseEl);
+      upgradeImagesToFigures(proseEl);
+      setupPausableGifs(proseEl);
+      enhance(proseEl, route.topic, route);
+      if (route.mode === 'practice') {
+        applyPracticeMode(proseEl, route);
+        if (siteFootEl) { siteFootEl.hidden = true; siteFootEl.textContent = ''; }
+      } else {
+        renderSiteFoot(route);
+      }
+      document.body.classList.toggle('practice-mode', route.mode === 'practice');
+      activeTopic = route.topic;
+      activeRoute = route;
+      setDocumentMeta(route.topic, route);
+      document.dispatchEvent(new CustomEvent('statna-skuska:route-changed', {
+        detail: { route: activeRoute ? { ...activeRoute } : null },
+      }));
+      proseEl.dataset.ready = '1';
+      if (proseEl.querySelector('.mermaid')) {
+        try {
+          const mermaidApi = await ensureMermaid();
+          await mermaidApi.run({ querySelector: '.prose .mermaid' });
+        } catch (err) {
+          console.warn('Mermaid render failed', err);
+        }
+      }
+      if (seq !== loadSeq) return;
+      requestAnimationFrame(() => {
+        if (route.hash) scrollToHash(route.hash);
+        else window.scrollTo({ top: 0, left: 0 });
+      });
+      prefetchTopics();
+    } catch (e) {
+      if (seq !== loadSeq) return;
+      if (hadRenderedContent) {
+        console.warn('Route load failed', route.topic.file, e);
+        return;
+      }
+      const isFile = location.protocol === 'file:';
+      const currentDir = decodeURIComponent(location.pathname.replace(/\/[^/]*$/, '') || '.');
+      proseEl.innerHTML = `
+        <div class="state state-error">
+          <p><strong>Nepodarilo sa načítať <code>${escapeHtml(route.topic.file)}</code>.</strong></p>
+          ${isFile ? `
+          <p style="margin-top:.75rem">Stránka je otvorená cez <code>file://</code>, takže prehliadač blokuje <code>fetch()</code>. Spusti lokálny server v priečinku:</p>
+          <pre style="font-family:var(--font-mono);background:var(--bg-2);padding:1rem;border:1px solid var(--rule);border-radius:2px;margin-top:.75rem;font-size:.85rem;overflow-x:auto">cd ${escapeHtml(currentDir)}
+python3 -m http.server 8000</pre>
+          <p style="margin-top:.75rem">Potom otvor <code>http://localhost:8000/?topic=${escapeHtml(route.topic.slug)}</code>.</p>
+          ` : `<p style="margin-top:.75rem">Chyba: <code>${escapeHtml(e.message)}</code></p>`}
+        </div>`;
+      if (siteFootEl) {
+        siteFootEl.hidden = true;
+        siteFootEl.textContent = '';
+      }
+    }
+  }
+
+  const homeBtn = document.getElementById('home-toggle');
+  const scrollTopBtn = document.getElementById('scroll-top-toggle');
+
+  homeBtn.addEventListener('click', () => {
+    navigateToRoute({ topic: null, qnum: null, viewMode: 'focus', hash: '', mode: 'home' });
+  });
+
+  function updateScrollTopButton() {
+    if (!scrollTopBtn) return;
+    scrollTopBtn.classList.toggle('is-visible', window.scrollY > 420);
+  }
+
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, left: 0 });
+    });
+    window.addEventListener('scroll', updateScrollTopButton, { passive: true });
+    updateScrollTopButton();
+  }
+
+  if (siteFootEl) {
+    siteFootEl.addEventListener('click', (e) => {
+      const routeLink = e.target.closest('a[data-route-topic]');
+      if (!routeLink) return;
+      e.preventDefault();
+      navigateToRoute(routeTargetFromLink(routeLink));
+    });
+  }
+
+  // Cross-topic jumps from the per-question meta strip (first/last card).
+  // proseEl is the permanent container; its innerHTML is swapped on load,
+  // but the element itself (and this listener) sticks around.
+  proseEl.addEventListener('click', (e) => {
+    const routeLink = e.target.closest('a[data-route-topic], a[data-route-mode]');
+    if (!routeLink) return;
+    e.preventDefault();
+    navigateToRoute(routeTargetFromLink(routeLink));
+  });
+
+  // --- Theme toggle (light/dark) ---
+  const themeKey = 'statna-skuska:theme';
+  const themeBtn = document.getElementById('theme-toggle');
+  const metaLight = document.querySelector('meta[name="theme-color"][media*="light"]');
+  const metaDark  = document.querySelector('meta[name="theme-color"][media*="dark"]');
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (metaLight) metaLight.setAttribute('media', theme === 'light' ? 'all' : 'not all');
+    if (metaDark)  metaDark.setAttribute('media',  theme === 'dark'  ? 'all' : 'not all');
+    initMermaidForTheme(theme);
+    rerenderMermaid();
+  }
+
+  // Sync everything with the theme the head-inline script chose.
+  applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+
+  themeBtn.addEventListener('click', () => {
+    const now = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(now);
+    try { localStorage.setItem(themeKey, now); } catch (_) {}
+  });
+
+  // Follow system changes unless the user has set an explicit preference.
+  try {
+    const mql = matchMedia('(prefers-color-scheme: dark)');
+    mql.addEventListener('change', (e) => {
+      if (localStorage.getItem(themeKey)) return;
+      applyTheme(e.matches ? 'dark' : 'light');
+    });
+  } catch (_) {}
+
+  // Keyboard: ←/→ jumps between question screens, ↑/↓ between answer sections.
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+    const t = e.target;
+    if (t) {
+      const tag = (t.tagName || '').toUpperCase();
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable) return;
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      if (!jumpBetweenQuestionSections(e.key === 'ArrowDown' ? 'down' : 'up')) return;
+      e.preventDefault();
+      return;
+    }
+    const isLeft = e.key === 'ArrowLeft';
+    if (activeRoute && activeRoute.mode === 'practice' && activeRoute.qnum) {
+      const total = totalQuestions();
+      const next = activeRoute.qnum + (isLeft ? -1 : 1);
+      if (next < 1 || next > total) return;
+      e.preventDefault();
+      navigateToRoute({ topic: examTopicForQnum(next), qnum: next, viewMode: 'focus', hash: '', mode: 'practice' });
+      return;
+    }
+    if (activeRoute && activeRoute.qnum) {
+      const targetRoute = adjacentQuestionTarget(
+        activeRoute.topic,
+        activeRoute.qnum,
+        isLeft ? 'prev' : 'next'
+      );
+      if (!targetRoute) return;
+      e.preventDefault();
+      navigateToRoute(targetRoute);
+      return;
+    }
+  });
+
+  let topicLinkWrapSyncRaf = 0;
+  function scheduleTopicLinkWrappingSync() {
+    if (topicLinkWrapSyncRaf) cancelAnimationFrame(topicLinkWrapSyncRaf);
+    topicLinkWrapSyncRaf = requestAnimationFrame(() => {
+      topicLinkWrapSyncRaf = 0;
+      if (proseEl && proseEl.dataset.ready === '1') {
+        syncQuestionTopicLinkWrapping(proseEl);
+      }
+    });
+  }
+
+  window.addEventListener('resize', scheduleTopicLinkWrappingSync);
+
+  window.StatnaSkuska = Object.assign(window.StatnaSkuska || {}, {
+    EXAM_TOPICS,
+    COMMISSION_TOPIC_MARKERS,
+    examTopicForQnum,
+    commissionMarkerForTopic,
+    pickRandomQnum,
+    navigateToRoute,
+    routeHrefFor,
+    getMarkdown(slug) {
+      const topic = EXAM_TOPIC_BY_SLUG[slug] || null;
+      if (!topic) return Promise.reject(new Error('Unknown topic: ' + slug));
+      return fetchMarkdown(topic);
+    },
+    getActiveRoute() {
+      return activeRoute ? { ...activeRoute } : null;
+    },
+  });
+
+  window.addEventListener('popstate', load);
+  window.addEventListener('hashchange', () => {
+    const route = resolveRoute();
+    const routeTopicSlug = route.topic ? route.topic.slug : null;
+    const activeTopicSlug = activeRoute && activeRoute.topic ? activeRoute.topic.slug : null;
+    if (
+      !activeRoute ||
+      routeTopicSlug !== activeTopicSlug ||
+      route.viewMode !== activeRoute.viewMode ||
+      route.qnum !== activeRoute.qnum ||
+      route.mode !== activeRoute.mode ||
+      route.needsCanonical
+    ) {
+      load();
+    }
+  });
+
+  load();
+})();
+</script>
+<script src="answers/scripts/palette.js"></script>
+<script src="answers/scripts/study.js"></script>
+<script>
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

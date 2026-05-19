@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827"/>
+    </marker>
+    <style>
+      .actor-line { stroke: #111827; stroke-width: 2; fill: none; }
+      .uc-line { stroke: #111827; stroke-width: 1.5; fill: none; }
+      .uc-dashed { stroke: #111827; stroke-width: 1.5; fill: none; stroke-dasharray: 6 6; marker-end: url(#arrow); }
+      .uc-shape { fill: #bae6fd; stroke: #0284c7; stroke-width: 2; }
+      .uc-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; dominant-baseline: middle; }
+      .uc-label { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; fill: #111827; font-style: italic; }
+      .actor-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; fill: #111827; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="#ffffff"/>
+
+  <!-- Links (drawn first so they are under shapes) -->
+  <!-- Klient to UC01 -->
+  <path d="M 170 340 L 335 260" class="uc-line"/>
+  <!-- Klient to UC02 -->
+  <path d="M 170 360 L 355 440" class="uc-line"/>
+  <!-- Klient to UC06 -->
+  <path d="M 160 380 L 325 540" class="uc-line"/>
+
+  <!-- Extend: UC08 to UC01 -->
+  <path d="M 590 140 L 510 195" class="uc-dashed"/>
+  <text x="575" y="170" class="uc-label">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- Include: UC01 to UC02 -->
+  <path d="M 450 305 L 450 410" class="uc-dashed"/>
+  <text x="495" y="360" class="uc-label">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- Include: UC01 to UC04 -->
+  <path d="M 560 270 L 640 325" class="uc-dashed"/>
+  <text x="590" y="290" class="uc-label">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- Include: UC06 to UC02 -->
+  <path d="M 420 520 L 440 485" class="uc-dashed"/>
+  <text x="480" y="510" class="uc-label">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- Actor: Klient -->
+  <g transform="translate(150 300)">
+    <circle cx="0" cy="0" r="15" class="actor-line"/>
+    <path d="M 0 15 L 0 50" class="actor-line"/>
+    <path d="M -20 25 L 20 25" class="actor-line"/>
+    <path d="M 0 50 L -15 85" class="actor-line"/>
+    <path d="M 0 50 L 15 85" class="actor-line"/>
+    <text x="0" y="105" class="actor-text">klient</text>
+  </g>
+
+  <!-- UC Shapes -->
+  <!-- UC 01 výber hotovosti -->
+  <g transform="translate(450 250)">
+    <ellipse cx="0" cy="0" rx="120" ry="50" class="uc-shape"/>
+    <line x1="-115" y1="10" x2="115" y2="10" stroke="#0284c7" stroke-width="1"/>
+    <text x="0" y="-15" class="uc-text">UC 01 výber hotovosti</text>
+    <text x="0" y="25" class="uc-text" font-size="12px" font-weight="bold">extension points</text>
+    <text x="0" y="40" class="uc-text" font-size="12px">UC 08 tlač potvrdenia</text>
+  </g>
+
+  <!-- UC 08 tlač potvrdenia -->
+  <g transform="translate(650 110)">
+    <ellipse cx="0" cy="0" rx="90" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC 08 tlač potvrdenia</text>
+  </g>
+
+  <!-- UC 02 overenie totožnosti -->
+  <g transform="translate(450 450)">
+    <ellipse cx="0" cy="0" rx="100" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC 02 overenie totožnosti</text>
+  </g>
+
+  <!-- UC 04 kontrola zostatku -->
+  <g transform="translate(730 350)">
+    <ellipse cx="0" cy="0" rx="90" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC 04 kontrola zostatku</text>
+  </g>
+
+  <!-- UC 06 zmena pin -->
+  <g transform="translate(400 550)">
+    <ellipse cx="0" cy="0" rx="80" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC 06 zmena pin</text>
+  </g>
+
+</svg>

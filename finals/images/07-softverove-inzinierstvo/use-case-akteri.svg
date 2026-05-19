@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="350" viewBox="0 0 800 350">
+  <defs>
+    <style>
+      .actor-line { stroke: #111827; stroke-width: 2; fill: none; }
+      .actor-head { fill: #bae6fd; stroke: #111827; stroke-width: 2; }
+      .uc-line { stroke: #111827; stroke-width: 1.5; fill: none; }
+      .uc-shape { fill: #bae6fd; stroke: #0284c7; stroke-width: 2; }
+      .uc-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; dominant-baseline: middle; }
+      .actor-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; fill: #111827; text-anchor: middle; }
+      .boundary { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 8 8; }
+      .boundary-text { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 18px; font-weight: bold; fill: #94a3b8; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="800" height="350" fill="#ffffff"/>
+
+  <!-- Primary Actor Boundary -->
+  <rect x="20" y="30" width="160" height="290" rx="15" class="boundary"/>
+  <text x="100" y="65" class="boundary-text">Primárny aktér</text>
+
+  <!-- System Boundary -->
+  <rect x="220" y="30" width="360" height="290" rx="15" class="boundary"/>
+  <text x="400" y="65" class="boundary-text">Hranice softvéru</text>
+
+  <!-- Secondary Actor Boundary -->
+  <rect x="620" y="30" width="160" height="290" rx="15" class="boundary"/>
+  <text x="700" y="65" class="boundary-text">Sekundárny aktér</text>
+
+  <!-- Lines -->
+  <!-- Top row -->
+  <line x1="120" y1="130" x2="310" y2="130" class="uc-line"/>
+  <line x1="490" y1="130" x2="680" y2="130" class="uc-line"/>
+  
+  <!-- Bottom row -->
+  <line x1="120" y1="260" x2="310" y2="260" class="uc-line"/>
+  <line x1="490" y1="260" x2="680" y2="260" class="uc-line"/>
+
+  <!-- Actor 1: Klient (Top) -->
+  <g transform="translate(100 100)">
+    <circle cx="0" cy="0" r="12" class="actor-head"/>
+    <path d="M 0 12 L 0 45" class="actor-line"/>
+    <path d="M -15 20 L 15 20" class="actor-line"/>
+    <path d="M 0 45 L -15 75" class="actor-line"/>
+    <path d="M 0 45 L 15 75" class="actor-line"/>
+    <text x="0" y="95" class="actor-text">Klient</text>
+  </g>
+
+  <!-- Actor 2: Platobná brána -->
+  <g transform="translate(700 100)">
+    <circle cx="0" cy="0" r="12" class="actor-head"/>
+    <path d="M 0 12 L 0 45" class="actor-line"/>
+    <path d="M -15 20 L 15 20" class="actor-line"/>
+    <path d="M 0 45 L -15 75" class="actor-line"/>
+    <path d="M 0 45 L 15 75" class="actor-line"/>
+    <text x="0" y="95" class="actor-text">Platobná brána</text>
+  </g>
+
+  <!-- Actor 3: Klient (Bottom) -->
+  <g transform="translate(100 230)">
+    <circle cx="0" cy="0" r="12" class="actor-head"/>
+    <path d="M 0 12 L 0 45" class="actor-line"/>
+    <path d="M -15 20 L 15 20" class="actor-line"/>
+    <path d="M 0 45 L -15 75" class="actor-line"/>
+    <path d="M 0 45 L 15 75" class="actor-line"/>
+    <text x="0" y="95" class="actor-text">Klient</text>
+  </g>
+
+  <!-- Actor 4: Externý dodávateľ -->
+  <g transform="translate(700 230)">
+    <circle cx="0" cy="0" r="12" class="actor-head"/>
+    <path d="M 0 12 L 0 45" class="actor-line"/>
+    <path d="M -15 20 L 15 20" class="actor-line"/>
+    <path d="M 0 45 L -15 75" class="actor-line"/>
+    <path d="M 0 45 L 15 75" class="actor-line"/>
+    <text x="0" y="95" class="actor-text">Externý dodávateľ</text>
+  </g>
+
+  <!-- UC Top -->
+  <g transform="translate(400 130)">
+    <ellipse cx="0" cy="0" rx="90" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC01 Vykonaj platbu</text>
+  </g>
+
+  <!-- UC Bottom -->
+  <g transform="translate(400 260)">
+    <ellipse cx="0" cy="0" rx="90" ry="30" class="uc-shape"/>
+    <text x="0" y="0" class="uc-text">UC01 Objednaj tovar</text>
+  </g>
+
+</svg>

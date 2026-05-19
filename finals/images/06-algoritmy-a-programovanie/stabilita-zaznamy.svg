@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 320">
+  <title>Stabilné a nestabilné usporadúvanie záznamov</title>
+  <defs>
+    <style>
+      .bg { fill: #1f1f22; stroke: #313136; stroke-width: 1.5; }
+      .divider { stroke: #4a4a50; stroke-width: 1.5; stroke-dasharray: 4 4; }
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 700; fill: #f5f5f5; }
+      .note { font-family: Arial, Helvetica, sans-serif; font-size: 17px; fill: #c8c8c8; }
+      .card { fill: #2b2b30; stroke: #6b7280; stroke-width: 1.5; rx: 7; }
+      .txt { font-family: Menlo, Consolas, monospace; font-size: 18px; font-weight: 700; fill: #f8fafc; }
+      .key { fill: #93c5fd; }
+    </style>
+  </defs>
+
+  <rect x="10" y="10" width="960" height="300" rx="8" class="bg"/>
+  <line x1="490" y1="10" x2="490" y2="310" class="divider"/>
+
+  <text x="245" y="52" text-anchor="middle" class="title">Stabilné usporadúvanie záznamov</text>
+  <text x="735" y="52" text-anchor="middle" class="title">Nestabilné usporadúvanie záznamov</text>
+
+  <g transform="translate(82 86)">
+    <rect width="64" height="44" class="card"/><text x="32" y="28" text-anchor="middle" class="txt">A:<tspan class="key">3</tspan></text>
+    <rect x="78" width="64" height="44" class="card"/><text x="110" y="28" text-anchor="middle" class="txt">B:<tspan class="key">1</tspan></text>
+    <rect x="156" width="64" height="44" class="card"/><text x="188" y="28" text-anchor="middle" class="txt">C:<tspan class="key">3</tspan></text>
+    <rect x="234" width="64" height="44" class="card"/><text x="266" y="28" text-anchor="middle" class="txt">D:<tspan class="key">2</tspan></text>
+  </g>
+  <g transform="translate(82 155)">
+    <rect width="64" height="44" class="card"/><text x="32" y="28" text-anchor="middle" class="txt">B:<tspan class="key">1</tspan></text>
+    <rect x="78" width="64" height="44" class="card"/><text x="110" y="28" text-anchor="middle" class="txt">D:<tspan class="key">2</tspan></text>
+    <rect x="156" width="64" height="44" class="card"/><text x="188" y="28" text-anchor="middle" class="txt">A:<tspan class="key">3</tspan></text>
+    <rect x="234" width="64" height="44" class="card"/><text x="266" y="28" text-anchor="middle" class="txt">C:<tspan class="key">3</tspan></text>
+  </g>
+  <text x="245" y="245" text-anchor="middle" class="note">Pri triedení podľa čísla zostane A pred C.</text>
+
+  <g transform="translate(572 86)">
+    <rect width="64" height="44" class="card"/><text x="32" y="28" text-anchor="middle" class="txt">A:<tspan class="key">3</tspan></text>
+    <rect x="78" width="64" height="44" class="card"/><text x="110" y="28" text-anchor="middle" class="txt">B:<tspan class="key">1</tspan></text>
+    <rect x="156" width="64" height="44" class="card"/><text x="188" y="28" text-anchor="middle" class="txt">C:<tspan class="key">3</tspan></text>
+    <rect x="234" width="64" height="44" class="card"/><text x="266" y="28" text-anchor="middle" class="txt">D:<tspan class="key">2</tspan></text>
+  </g>
+  <g transform="translate(572 155)">
+    <rect width="64" height="44" class="card"/><text x="32" y="28" text-anchor="middle" class="txt">B:<tspan class="key">1</tspan></text>
+    <rect x="78" width="64" height="44" class="card"/><text x="110" y="28" text-anchor="middle" class="txt">D:<tspan class="key">2</tspan></text>
+    <rect x="156" width="64" height="44" class="card"/><text x="188" y="28" text-anchor="middle" class="txt">C:<tspan class="key">3</tspan></text>
+    <rect x="234" width="64" height="44" class="card"/><text x="266" y="28" text-anchor="middle" class="txt">A:<tspan class="key">3</tspan></text>
+  </g>
+  <text x="735" y="245" text-anchor="middle" class="note">Pri rovnakom kľúči sa A a C môžu prehodiť.</text>
+</svg>

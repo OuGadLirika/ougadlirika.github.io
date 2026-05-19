@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1720 980" role="img">
+  <title>Ilustrácia vykonávania funkcie faktorial(3)</title>
+  <defs>
+    <marker id="arrow-red" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#c74747"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#7352a6"/>
+    </marker>
+  </defs>
+
+  <rect x="50" y="35" width="1620" height="910" fill="#dbe6f2" stroke="#315a83" stroke-width="7"/>
+
+  <rect x="190" y="140" width="1340" height="735" fill="#dfecc0" stroke="#779132" stroke-width="7"/>
+  <rect x="320" y="260" width="1080" height="535" fill="#e4b7bb" stroke="#98383f" stroke-width="7"/>
+  <rect x="455" y="365" width="810" height="335" fill="#bfe5ec" stroke="#2f8698" stroke-width="7"/>
+
+  <text x="65" y="105" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">faktorial(3)</text>
+
+  <text x="215" y="222" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">3 * faktorial(2)</text>
+  <text x="355" y="330" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">2 * faktorial(1)</text>
+  <text x="495" y="428" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">1 * faktorial(0)</text>
+
+  <text x="490" y="668" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">1 * 1</text>
+  <text x="350" y="760" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">2 * 1</text>
+  <text x="210" y="846" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">3 * 2</text>
+  <text x="90" y="930" font-family="Times New Roman, Times, serif" font-size="56" font-weight="700" fill="#000">6</text>
+
+  <text x="58" y="455" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#c00000">Rekurzívne volanie</text>
+  <text x="86" y="775" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#7352a6">Výpočet</text>
+
+  <text x="1015" y="670" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#000">4. aktivácia</text>
+  <text x="1148" y="760" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#000">3. aktivácia</text>
+  <text x="1285" y="856" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#000">2. aktivácia</text>
+  <text x="1425" y="928" font-family="Times New Roman, Times, serif" font-size="48" font-weight="700" fill="#000">1. aktivácia</text>
+
+  <line x1="130" y1="132" x2="185" y2="190" stroke="#c74747" stroke-width="5" marker-end="url(#arrow-red)"/>
+  <line x1="245" y1="230" x2="305" y2="287" stroke="#c74747" stroke-width="5" marker-end="url(#arrow-red)"/>
+  <line x1="378" y1="358" x2="440" y2="415" stroke="#c74747" stroke-width="5" marker-end="url(#arrow-red)"/>
+
+  <line x1="478" y1="637" x2="420" y2="715" stroke="#7352a6" stroke-width="5" marker-end="url(#arrow-purple)"/>
+  <line x1="330" y1="745" x2="280" y2="815" stroke="#7352a6" stroke-width="5" marker-end="url(#arrow-purple)"/>
+  <line x1="185" y1="837" x2="130" y2="905" stroke="#7352a6" stroke-width="5" marker-end="url(#arrow-purple)"/>
+</svg>

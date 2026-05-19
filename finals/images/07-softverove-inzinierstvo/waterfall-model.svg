@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3d3d3d"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a9a9a"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="618" fill="#fafaf9"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif">
+    <g fill="#f5f5f4" stroke="#3d3d3d" stroke-width="2">
+      <rect x="70" y="70" width="230" height="66" rx="6"/>
+      <rect x="245" y="155" width="230" height="66" rx="6"/>
+      <rect x="420" y="240" width="230" height="66" rx="6"/>
+      <rect x="595" y="325" width="230" height="66" rx="6"/>
+      <rect x="770" y="410" width="230" height="66" rx="6"/>
+      <rect x="945" y="495" width="230" height="66" rx="6"/>
+    </g>
+
+    <g fill="#0a0a0a" font-size="28" font-weight="600" text-anchor="middle" dominant-baseline="middle">
+      <text x="185" y="103">Plánovanie</text>
+      <text x="360" y="188">Analýza</text>
+      <text x="535" y="273">Návrh</text>
+      <text x="710" y="358">Implementácia</text>
+      <text x="885" y="443">Testovanie</text>
+      <text x="1060" y="528">Údržba</text>
+    </g>
+
+    <g fill="none" stroke="#3d3d3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)">
+      <path d="M 300 103 H 360 V 150"/>
+      <path d="M 475 188 H 535 V 235"/>
+      <path d="M 650 273 H 710 V 320"/>
+      <path d="M 825 358 H 885 V 405"/>
+      <path d="M 1000 443 H 1060 V 490"/>
+    </g>
+
+    <g fill="none" stroke="#9a9a9a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 10" marker-end="url(#arrow-muted)">
+      <path d="M 285 155 V 132"/>
+      <path d="M 460 240 V 217"/>
+      <path d="M 635 325 V 302"/>
+      <path d="M 810 410 V 387"/>
+      <path d="M 985 495 V 472"/>
+    </g>
+  </g>
+</svg>

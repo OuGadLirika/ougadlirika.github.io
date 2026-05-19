@@ -1,0 +1,293 @@
+/* ------------------------------------------------------------------
+   Study layer styles — progress controls, utility dock, and
+   self-graded practice mode. Kept in the same editorial monochrome voice
+   as the main app.
+   ------------------------------------------------------------------ */
+
+.utility-dock {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.utility-dock .theme-toggle,
+.utility-dock .search-toggle {
+  position: static;
+  inset: auto;
+}
+
+.study-progress {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .85rem;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.study-progress__meta {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  min-width: 4.5rem;
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-5);
+}
+
+.study-progress__label {
+  color: var(--ink-4);
+}
+
+.study-progress__buttons,
+.practice-panel__grade-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.study-progress-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 34px;
+  padding: 0 .8rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition:
+    color .15s ease,
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.study-progress-btn:hover {
+  color: var(--ink);
+  border-color: var(--ink-4);
+  background: var(--bg-2);
+  transform: translateY(-1px);
+}
+
+.study-progress-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.study-progress-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  line-height: 1;
+}
+
+.study-progress-btn__label.is-icon {
+  min-width: 1.4rem;
+  justify-content: center;
+}
+
+.study-progress-btn.is-active {
+  color: var(--ink);
+  border-color: var(--ink-4);
+  background: var(--bg-2);
+  box-shadow: 0 1px 0 var(--card-highlight);
+}
+
+.study-progress-btn[data-progress-set="know"].is-active {
+  background: rgba(52, 199, 89, .12);
+  border-color: rgba(52, 199, 89, .48);
+  color: #1e8f42;
+}
+
+.study-progress-btn[data-progress-set="unknown"].is-active {
+  background: rgba(255, 59, 48, .14);
+  border-color: rgba(255, 59, 48, .52);
+  border-style: solid;
+  color: #c62828;
+}
+
+.study-ok-label,
+.study-ko-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  min-width: 2ch;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.prose .question[data-progress="know"] {
+  box-shadow: 0 1px 0 var(--card-highlight);
+}
+
+.prose .question[data-progress="unknown"] {
+  box-shadow: 0 1px 0 var(--card-highlight);
+}
+
+.practice-panel {
+  width: min(100%, var(--content-max));
+  max-width: var(--content-max);
+  margin: 1.35rem auto 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-card);
+  background: transparent;
+  box-shadow: none;
+}
+
+.practice-panel__eyebrow {
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-5);
+}
+
+.practice-panel__lead {
+  margin: .5rem 0 0 0;
+  max-width: 44rem;
+  color: var(--ink-2);
+}
+
+.practice-panel__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 0;
+}
+
+.practice-panel__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 42px;
+  padding: 0 1.05rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-control);
+  background: var(--bg);
+  color: var(--ink-3);
+  cursor: pointer;
+  transition:
+    color .15s ease,
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.practice-panel .study-progress-btn {
+  border-radius: var(--radius-control);
+  min-height: 42px;
+  padding: 0 1rem;
+}
+
+.practice-panel__button:hover {
+  color: var(--ink);
+  border-color: var(--ink-4);
+  background: var(--bg-2);
+}
+
+.practice-panel__button:disabled {
+  opacity: .55;
+  cursor: default;
+  transform: none;
+}
+
+.practice-panel__button--next svg {
+  flex-shrink: 0;
+}
+
+.practice-panel__grading {
+  margin-top: 1.1rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+.practice-panel .practice-panel__grade-buttons {
+  gap: .35rem;
+  justify-content: center;
+}
+
+body.practice-mode .prose .question .q-body[hidden] {
+  display: none;
+}
+
+body.practice-mode:not(.practice-answer-revealed) .practice-panel {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(3rem, 14vh, 8rem);
+  z-index: 80;
+  width: min(100% - 2.5rem, var(--content-max));
+  margin: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+body.practice-mode:not(.practice-answer-revealed) .practice-panel__actions {
+  pointer-events: auto;
+}
+
+body.practice-answer-revealed .practice-panel {
+  background: transparent;
+}
+
+body.practice-mode .practice-panel {
+  background: transparent;
+  box-shadow: none;
+}
+
+body.practice-answer-revealed .practice-panel {
+  background: transparent;
+}
+
+@media (max-width: 960px) {
+  .study-progress,
+  .practice-panel__grading-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .practice-panel__grading-status {
+    text-align: left;
+  }
+}
+
+@media (max-width: 720px) {
+}
+
+@media (max-width: 560px) {
+  .utility-dock {
+    gap: .4rem;
+  }
+
+  .study-progress {
+    flex-direction: column;
+  }
+
+  .practice-panel {
+    padding: 1rem;
+    border-radius: var(--radius-card);
+  }
+}

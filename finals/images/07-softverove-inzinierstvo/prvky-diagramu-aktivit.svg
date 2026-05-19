@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827"/>
+    </marker>
+    <style>
+      .title { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 38px; font-weight: 700; fill: #111827; }
+      .subtitle { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 18px; font-weight: 400; fill: #4b5563; }
+      .label { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 24px; font-weight: 700; fill: #111827; }
+      .small { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 18px; font-weight: 500; fill: #374151; }
+      .tiny { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; font-weight: 500; fill: #4b5563; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 18; }
+      .activity { fill: #bfdbfe; stroke: #1f2937; stroke-width: 3; }
+      .object { fill: #dbeafe; stroke: #1f2937; stroke-width: 3; }
+      .decision { fill: #ffffff; stroke: #111827; stroke-width: 5; }
+      .flow { stroke: #111827; stroke-width: 5; fill: none; marker-end: url(#arrow); stroke-linecap: round; stroke-linejoin: round; }
+      .bar { fill: #111827; }
+      .note { fill: #ecfdf5; stroke: #86efac; stroke-width: 2; rx: 14; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="#ffffff"/>
+  <text x="60" y="70" class="title">Prvky diagramu aktivít</text>
+  <text x="60" y="102" class="subtitle">Základné UML značky používané na opis priebehu procesu, vetvenia a toku objektov.</text>
+
+  <g transform="translate(60 145)">
+    <rect class="box" width="330" height="170"/>
+    <text x="28" y="42" class="label">Aktivita</text>
+    <rect x="78" y="72" width="175" height="62" rx="20" class="activity"/>
+    <text x="165.5" y="110" text-anchor="middle" class="small">Aktivita</text>
+    <text x="28" y="150" class="tiny">Krok alebo činnosť v procese.</text>
+  </g>
+
+  <g transform="translate(435 145)">
+    <rect class="box" width="330" height="170"/>
+    <text x="28" y="42" class="label">Začiatočná aktivita</text>
+    <circle cx="165" cy="98" r="31" fill="#111827"/>
+    <text x="28" y="150" class="tiny">Miesto, kde sa tok procesu začína.</text>
+  </g>
+
+  <g transform="translate(810 145)">
+    <rect class="box" width="330" height="170"/>
+    <text x="28" y="42" class="label">Koncová aktivita</text>
+    <circle cx="165" cy="98" r="34" fill="#ffffff" stroke="#111827" stroke-width="4"/>
+    <circle cx="165" cy="98" r="18" fill="#111827"/>
+    <text x="28" y="150" class="tiny">Ukončenie celého toku alebo jeho časti.</text>
+  </g>
+
+  <g transform="translate(60 350)">
+    <rect class="box" width="330" height="205"/>
+    <text x="28" y="42" class="label">Tok riadenia</text>
+    <rect x="45" y="78" width="96" height="48" rx="14" class="activity"/>
+    <text x="93" y="108" text-anchor="middle" class="tiny">Aktivita</text>
+    <path d="M 150 102 L 220 102" class="flow"/>
+    <rect x="230" y="78" width="74" height="48" rx="14" class="activity"/>
+    <text x="267" y="108" text-anchor="middle" class="tiny">Ďalšia</text>
+    <text x="28" y="170" class="tiny">Šípka určuje poradie vykonávania krokov.</text>
+  </g>
+
+  <g transform="translate(435 350)">
+    <rect class="box" width="330" height="205"/>
+    <text x="28" y="42" class="label">Tok objektov</text>
+    <rect x="35" y="82" width="85" height="48" rx="14" class="activity"/>
+    <text x="77.5" y="112" text-anchor="middle" class="tiny">Aktivita</text>
+    <path d="M 130 106 L 165 106" class="flow"/>
+    <rect x="175" y="78" width="70" height="56" class="object"/>
+    <text x="210" y="112" text-anchor="middle" class="tiny">Objekt</text>
+    <path d="M 255 106 L 292 106" class="flow"/>
+    <text x="28" y="170" class="tiny">Objekt ako vstup alebo výstup aktivity.</text>
+  </g>
+
+  <g transform="translate(810 350)">
+    <rect class="box" width="330" height="220"/>
+    <text x="28" y="42" class="label">Rozhodovanie a zlúčenie</text>
+    <path d="M 70 105 L 123 105" class="flow"/>
+    <rect x="125" y="75" width="60" height="60" transform="rotate(45 155 105)" class="decision"/>
+    <path d="M 198 90 L 258 62" class="flow"/>
+    <path d="M 198 120 L 258 148" class="flow"/>
+    <text x="252" y="58" class="tiny">áno</text>
+    <text x="252" y="158" class="tiny">nie</text>
+    <text x="28" y="180" class="tiny">Vetvenie podľa podmienky</text>
+    <text x="28" y="200" class="tiny">alebo spätné zlúčenie toku.</text>
+  </g>
+
+  <g transform="translate(60 590)">
+    <rect class="box" width="520" height="120"/>
+    <text x="28" y="42" class="label">Vetvenie a spojenie</text>
+    <path d="M 180 72 L 245 72" class="flow"/>
+    <rect x="250" y="52" width="10" height="40" class="bar"/>
+    <path d="M 265 60 L 330 60" class="flow"/>
+    <path d="M 265 84 L 330 84" class="flow"/>
+    <text x="28" y="110" class="tiny">Hrubá čiara rozdeľuje alebo synchronizuje paralelné vetvy.</text>
+  </g>
+
+
+</svg>
