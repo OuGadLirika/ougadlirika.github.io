@@ -1,7 +1,7 @@
 let config = {
   "Title": "Ruth Fenev",
   "Name": "Ruth Fenev",
-  "Description": "Software Engineer | Web3 & AI Enthusiast | Bybit Ambassador",
+  "Description": "AI Software Engineer | Web3 & FinTech",
   "links": [
     {
       "Title": "Telegram",
@@ -17,17 +17,6 @@ let config = {
       "Title": "Instagram",
       "URL": "https://www.instagram.com/ougadlirika/",
       "icon_classes": "fab fa-instagram",
-    },
-    {
-      "Title": "Twitter X",
-      "URL": "https://x.com/DanubeClub",
-      "icon_classes": "fab fa-twitter",
-    }
-  ],
-  "links_ad": [
-    {
-      "Title": "Nomad's Jobs",
-      "URL": "https://t.me/nomadsjob",
     }
   ]
 }
